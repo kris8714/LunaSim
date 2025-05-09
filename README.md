@@ -19,10 +19,10 @@ an AWS S3 Bucket) can be used for running this application.
 
 ### Model Editor
 
-The model editor allows the user to create stocks, clouds, variables, flows, and influences.  All of these entities and their labels can be easily moved around for visual organization.
-Each entity corresponds to an entry in the equation editor table, in which the user can enteri in corresponding equations for each element. Ghosts (visual copies of elements)
+The model editor allows users to create stocks, clouds, variables, flows, and influences.  These entities and their labels can be easily moved around for visual organization.
+Each entity corresponds to an entry in the equation editor table, in which the user can enter in corresponding equations for each element. Ghosts (visual copies of elements)
 are signified by a dollar symbol (`$`) being included in front of the element name.  These equations are written in JavaScript code (meaning all JS syntax like if-statements and 
-even `Math` library are included).
+even the `Math` library are included).
 
 ![Image](./img/modelView.png)
 _Model Editor_
