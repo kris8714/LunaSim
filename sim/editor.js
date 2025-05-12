@@ -681,6 +681,40 @@ function run() {
       document.getElementById("dt").classList = "simParamsInput simParamsInputError";
     }
 
+    //Creates a set of all variables in the equation for easy access in checkValveInfluences()
+    function getEquationVariables(equation) {
+        const matches = equation.match(/[a-zA-Z_]\w*/g);
+        return matches ? [...new Set(matches)] : [];
+    }  
+    //Checks to see if objects referenced in a certain equation have the necessary influences in the diagram
+    function checkValveInfluences(){
+        const valveNodes = myDiagram.model.nodeDataArray.filter(node => node.category === "valve");
+        const issues = [];
+
+        for(const valve of valveNodes){
+            const equation = valve.equation || "";
+            const usedVars = getEquationVariables(equation);
+
+            const incomingInfluences = myDiagram.model.linkDataArray.filter(link => link.category === "influence" && link.to == valve.key).map(link => myDiagram.model.findNodeDataForKey(link.from)?.label);
+            const missingInfluences = usedVars.filter(varName => !incomingInfluences.includes(varName));
+            if (missingInfluences.length > 0){
+                issues.push({
+                    valve: valve.label,
+                    missingVars: missingInfluences
+                });
+            }
+        }
+        return issues;
+    }
+
+    const issues = checkValveInfluences();
+    if (issues.length > 0) {
+        errors.push("Missing influences detected! Please add the following influences: ");
+        issues.forEach(issue => {
+        errors.push(`➨ Object ${issue.valve} is missing influences for: ${issue.missingVars.join(", ")}`);
+    });
+    }
+
     if (errors.length != 0) {
         window.scroll({
             top: document.body.scrollHeight,
