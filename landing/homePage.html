@@ -5,6 +5,7 @@
 <html lang="en">
 
 <head>
+  <link href="https://fonts.googleapis.com/css2?family=Mona+Sans&display=swap" rel="stylesheet">
   <title>LunaSim</title>
   <meta id="vp" name="viewport" content="width=device-width">
   <script>
@@ -22,7 +23,7 @@
 
 <style>
   body {
-    font-family: sans-serif;
+    font-family: 'Mona Sans', sans-serif;
     line-height: 60px;
   }
 
@@ -57,21 +58,25 @@
     color: rgb(43, 43, 48);
     font-weight: bold;
     font-size: 30px;
-    transition: 0.6s ease;
-    border-radius: 0 3px 3px 0;
+    transition: 0.1s;
     user-select: none;
   }
 
   /* Position the "next button" to the right */
   .next {
-    right: 0;
-    border-radius: 3px 0 0 3px;
+    right: -50px;
   }
 
-  /* On hover, add a black background color with a little bit see-through */
+  /* Position the "prev button" to the left */
+  
+  .prev {
+    left: -50px;
+  }
+
+  /* On hover, move arrows slightly downward*/
   .prev:hover,
   .next:hover {
-    background-color: rgba(0, 0, 0, 0.8);
+    transform: translateY(2px);
   }
 
   /* Caption text */
@@ -102,7 +107,7 @@
     height: 15px;
     width: 15px;
     margin: 0 2px;
-    background-color: #bbb;
+    background-color: #80cbe0;
     border-radius: 50%;
     display: inline-block;
     transition: background-color 0.6s ease;
@@ -110,7 +115,7 @@
 
   .active,
   .dot:hover {
-    background-color: #717171;
+    background-color: #986ec0;
   }
 
   /* Fading animation */
@@ -169,7 +174,7 @@
 
   tr,
   td {
-    border-bottom: 2px solid #ccc;
+    border-bottom: 2px solid #5ca0cb;
     padding: 10px;
   }
 
@@ -180,7 +185,7 @@
 
   a:visited {
     text-decoration: none;
-    color: black;
+    color: rgb(125, 63, 156);
   }
 
   a:hover {
@@ -197,12 +202,11 @@
 <body>
   <div class="tabContent" id="home">
     <p style="font-size: min(40px, 5vw); text-align: center; font-weight: bold;">Design and run powerful simulations,
-      all in the browser with...</p>
-    <p style="font-size: min(50px, 8vw); text-align: center; font-weight: bold; height: 5%"><img
+      all in your browser with...</p>
+    <p style="font-size: min(80px, 8vw); text-align: center; font-weight: bold; height: 5%"><img
         src="../img/lunaLogo.svg" style="height: 1em; position: top; top: 10px; margin-right: 10px">LunaSim</p>
-    <button onclick="window.location.href='../sim/systemDynamics.html'"
-      style="width: min(360px, 40vw); height: 50px; border-radius: 20px; background-color: #212121ff; margin-left: calc((100% - min(360px, 40vw))/2); color: white; font-size: min(30px, 4vw);">
-      Click to launch
+    <button id="startButton" onclick="window.location.href='../sim/systemDynamics.html'">
+      Launch Now
     </button>
     <img src="../img/modelView.png" alt="Model view"
       style="width: min(100%, 80vw); margin-left: calc((100% - min(100%, 80vw))/2);">
@@ -245,9 +249,9 @@
         <img src="../img/enjoy.png" style="width:100%">
         <div class="text"><span>Enjoy!</span></div>
       </div>
-
-      <a class="prev" onclick="plusSlides(-1)"><</a>
-      <a class="next" onclick="plusSlides(1)">></a>
+      <!-- Arrow Icons -->
+      <a class="prev" id="prevBtn" onclick="plusSlides(-1)"><img src="../images/arrowL.png" height="35px"></a>
+      <a class="next" id="nextBtn" onclick="plusSlides(1)"><img src="../images/arrowR.png" height="35px"></a>
 
     </div>
 
@@ -298,7 +302,7 @@
       <td><b>Karthik Vedula:</b><br>Lead Programmer</td>
       <td><a href="mailto: karthik@vedula.me" target="_blank">karthik@vedula.me</a></td>
     </tr>
-    <tr>
+    <tr style="background-color: #eee">
       <td><b>Aditya Patil:</b><br>Systems Analyst<br>and Lead Tester</td>
       <td><a href="mailto: adi24.patil@gmail.com" target="_blank">adi24.patil@gmail.com</a></td>
     </tr>

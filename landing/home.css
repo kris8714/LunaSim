@@ -1,5 +1,5 @@
 body{
-    font-family: sans-serif;
+    font: 'Mona Sans';
     line-height: 60px;
   }
   .tablinks{
@@ -26,7 +26,7 @@ body{
   width: 100%;
   }
   tr, td {
-    border-bottom: 2px solid #ccc;
+    border-bottom: 2px solid #5ca0cb;
     padding: 10px;
   }
   a:link { text-decoration: none;  color: black;}
@@ -36,4 +36,34 @@ body{
   a:hover { text-decoration: none; color: rgb(0, 105, 191);}
 
   a:active { text-decoration: none;  color: black;
+}
+#startButton{
+  background: linear-gradient(90deg, #5842c5, #008998, #5842c5);
+  background-size: 300% 100%;
+  background-position: 0% 0%;
+  font-family: 'Mona Sans'; 
+  width: min(360px, 40vw); 
+  height: 50px; 
+  border-radius: 20px; 
+  margin-left: calc((100% - min(360px, 40vw))/2); 
+  font-size: min(30px, 4vw);
+  color: white;
+  transition: color 0.2s;
+  animation: gradientFlow 8s linear infinite alternate;
+  box-shadow: #5842c5 0px 0px 10px, #008998 0px 0px 10px;
+  border:#008998
+}
+#startButton:hover{
+  cursor: pointer;
+}
+#startButton:active{
+  transform: translateY(2px);
+}
+@keyframes gradientFlow {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 0%;
+  }
 }
