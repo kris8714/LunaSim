@@ -655,12 +655,51 @@ function run() {
         document.getElementById("dt").classList = "simParamsInput simParamsInputError";
     }
 
+    //Creates a set of all variables in the equation for easy access in checkValveInfluences()
+    function getEquationVariables(equation) {
+        const matches = equation.match(/[a-zA-Z_]\w*/g);
+        if (!matches) return [];
+        // Remove math function names and Math.<fn> calls
+        const mathFnSet = new Set(JAVA_MATH_FUNCTIONS);
+        return [...new Set(matches.filter(
+            v => !mathFnSet.has(v) && !v.startsWith('Math.')
+        ))];
+    }  
+    //Checks to see if objects referenced in a certain equation have the necessary influences in the diagram
+    function checkValveInfluences(){
+        const valveNodes = myDiagram.model.nodeDataArray.filter(node => node.category === "valve");
+        const issues = [];
+
+        for(const valve of valveNodes){
+            const equation = valve.equation || "";
+            const usedVars = getEquationVariables(equation);
+
+            const incomingInfluences = myDiagram.model.linkDataArray.filter(link => link.category === "influence" && link.to == valve.key).map(link => myDiagram.model.findNodeDataForKey(link.from)?.label);
+            const missingInfluences = usedVars.filter(varName => !incomingInfluences.includes(varName));
+            if (missingInfluences.length > 0){
+                issues.push({
+                    valve: valve.label,
+                    missingVars: missingInfluences
+                });
+            }
+        }
+        return issues;
+    }
+
+    const issues = checkValveInfluences();
+    if (issues.length > 0) {
+        errors.push("Missing influences detected! Please add the following influences: ");
+        issues.forEach(issue => {
+        errors.push(`➨ Object ${issue.valve} is missing influences for: ${issue.missingVars.join(", ")}`);
+    });
+    }
+
     if (errors.length != 0) {
         window.scroll({
             top: document.body.scrollHeight,
             behavior: "smooth",
         });
-        document.getElementById("simErrorPopupDesc").innerHTML = "There are errors with the simulation parameters:<br><br>" + errors.join("<br>");
+        document.getElementById("simErrorPopupDesc").innerHTML = "Please fix the following errors: <br><br>" + errors.join("<br>");
         showSimErrorPopup();
         return;
     }
@@ -842,10 +881,10 @@ function loadModel(evt) {
         myDiagram.model = go.Model.fromJson("{ \"class\": \"GraphLinksModel\", \"linkLabelKeysProperty\": \"labelKeys\", \"nodeDataArray\": [],\"linkDataArray\": [] }");
         // clear the table
         $('#eqTableBody').empty();
-
+        
         // Load the new model
         myDiagram.model = go.Model.fromJson(evt.target.result);
-
+       
         updateTable(true);
         loadTableToDiagram();
 
@@ -978,3 +1017,147 @@ window.addEventListener('beforeunload', function (e) {
 
 // Exporting myDiagram
 export {data};
+
+// --- Math Function Autocomplete for Equation Editor ---
+const JAVA_MATH_FUNCTIONS = [
+    'sin', 'cos', 'tan', 'asin', 'acos', 'atan', 'atan2', 'sinh', 'cosh', 'tanh',
+    'exp', 'log', 'log10', 'sqrt', 'cbrt', 'abs', 'ceil', 'floor', 'round', 'pow', 'max', 'min', 'signum', 'toRadians', 'toDegrees', 'random', 'hypot', 'expm1', 'log1p', 'copySign', 'nextUp', 'nextDown', 'ulp', 'IEEEremainder', 'rint', 'getExponent', 'scalb', 'fma'
+];
+
+// Create autocomplete dropdown
+function createMathAutocomplete() {
+    let dropdown = document.createElement('div');
+    dropdown.id = 'math-autocomplete';
+    dropdown.style.position = 'absolute';
+    dropdown.style.zIndex = 1000;
+    dropdown.style.background = '#fff';
+    dropdown.style.border = '1px solid #ccc';
+    dropdown.style.display = 'none';
+    dropdown.style.maxHeight = '150px';
+    dropdown.style.overflowY = 'auto';
+    dropdown.style.fontSize = '14px';
+    document.body.appendChild(dropdown);
+    return dropdown;
+}
+
+const mathAutocomplete = createMathAutocomplete();
+let mathAutocompleteSelectedIndex = -1;
+let mathAutocompleteMatches = [];
+let mathAutocompleteInputElem = null;
+
+function showMathAutocomplete(inputElem, word) {
+    if (!word) {
+        mathAutocomplete.style.display = 'none';
+        mathAutocompleteSelectedIndex = -1;
+        mathAutocompleteMatches = [];
+        mathAutocompleteInputElem = null;
+        return;
+    }
+    const rect = inputElem.getBoundingClientRect();
+    mathAutocomplete.style.left = rect.left + window.scrollX + 'px';
+    mathAutocomplete.style.top = rect.bottom + window.scrollY + 'px';
+    mathAutocomplete.innerHTML = '';
+    let matches = JAVA_MATH_FUNCTIONS.filter(fn => fn.startsWith(word));
+    mathAutocompleteMatches = matches;
+    mathAutocompleteInputElem = inputElem;
+    mathAutocompleteSelectedIndex = -1;
+    if (matches.length === 0) {
+        mathAutocomplete.style.display = 'none';
+        return;
+    }
+    matches.forEach((fn, idx) => {
+        let item = document.createElement('div');
+        item.textContent = fn + '(...)';
+        item.style.padding = '4px 8px';
+        item.style.cursor = 'pointer';
+        item.dataset.index = idx;
+        item.addEventListener('mousedown', function(e) {
+            e.preventDefault();
+            insertMathFunction(inputElem, fn);
+            mathAutocomplete.style.display = 'none';
+        });
+        mathAutocomplete.appendChild(item);
+    });
+    mathAutocomplete.style.display = 'block';
+    highlightMathAutocomplete();
+}
+
+function highlightMathAutocomplete() {
+    const children = mathAutocomplete.children;
+    for (let i = 0; i < children.length; i++) {
+        if (i === mathAutocompleteSelectedIndex) {
+            children[i].style.background = '#e0e0e0';
+        } else {
+            children[i].style.background = '#fff';
+        }
+    }
+}
+
+function insertMathFunction(inputElem, fn) {
+    let start = inputElem.selectionStart;
+    let end = inputElem.selectionEnd;
+    let value = inputElem.value;
+    // Find the word before the cursor
+    let before = value.slice(0, start).replace(/.*?([a-zA-Z0-9_]*)$/, '$1');
+    let wordStart = start - before.length;
+    inputElem.value = value.slice(0, wordStart) + fn + '()' + value.slice(end);
+    inputElem.selectionStart = inputElem.selectionEnd = wordStart + fn.length + 1;
+    inputElem.focus();
+}
+
+function attachMathAutocomplete() {
+    document.addEventListener('input', function(e) {
+        if (e.target && e.target.tagName === 'INPUT' && e.target.closest('#eqTableBody')) {
+            let inputElem = e.target;
+            let pos = inputElem.selectionStart;
+            let value = inputElem.value.slice(0, pos);
+            let match = value.match(/([a-zA-Z_][a-zA-Z0-9_]*)$/);
+            if (match) {
+                showMathAutocomplete(inputElem, match[1]);
+            } else {
+                mathAutocomplete.style.display = 'none';
+                mathAutocompleteSelectedIndex = -1;
+                mathAutocompleteMatches = [];
+                mathAutocompleteInputElem = null;
+            }
+        }
+    });
+    document.addEventListener('click', function(e) {
+        if (!mathAutocomplete.contains(e.target)) {
+            mathAutocomplete.style.display = 'none';
+            mathAutocompleteSelectedIndex = -1;
+            mathAutocompleteMatches = [];
+            mathAutocompleteInputElem = null;
+        }
+    });
+    document.addEventListener('keydown', function(e) {
+        if (mathAutocomplete.style.display === 'block' && mathAutocompleteMatches.length > 0) {
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                mathAutocompleteSelectedIndex = (mathAutocompleteSelectedIndex + 1) % mathAutocompleteMatches.length;
+                highlightMathAutocomplete();
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                mathAutocompleteSelectedIndex = (mathAutocompleteSelectedIndex - 1 + mathAutocompleteMatches.length) % mathAutocompleteMatches.length;
+                highlightMathAutocomplete();
+            } else if (e.key === 'Enter' || e.key === 'Tab') {
+                if (mathAutocompleteSelectedIndex >= 0 && mathAutocompleteInputElem) {
+                    e.preventDefault();
+                    insertMathFunction(mathAutocompleteInputElem, mathAutocompleteMatches[mathAutocompleteSelectedIndex]);
+                    mathAutocomplete.style.display = 'none';
+                    mathAutocompleteSelectedIndex = -1;
+                    mathAutocompleteMatches = [];
+                    mathAutocompleteInputElem = null;
+                }
+            } else if (e.key === 'Escape') {
+                mathAutocomplete.style.display = 'none';
+                mathAutocompleteSelectedIndex = -1;
+                mathAutocompleteMatches = [];
+                mathAutocompleteInputElem = null;
+            }
+        }
+    });
+}
+
+attachMathAutocomplete();
+// --- End Math Function Autocomplete ---

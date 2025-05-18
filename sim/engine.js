@@ -41,7 +41,8 @@ export class Simulation {
 
     /* 
     Replaces names in equation with values.
-    Example: 'converter1*converter2+stock1' --> '(1)*(2)+(3)'
+    Example: '[converter1]*[converter2]+[stock1]' --> '(1)*(2)+(3)'
+    Only replaces [var] (bracketed) names for substitution, as originally required.
     */
     parseObject(equation, history = []) {
         let objects = {} // stores all stocks, converters, and flows and their respective equation/safeval
@@ -56,16 +57,15 @@ export class Simulation {
             for (var flow in this.data.stocks[stock]["outflows"]) {
                 objects[flow] = this.data.stocks[stock]["outflows"][flow]["equation"];
             }
-
         }
 
         for (var converter in this.data.converters) {
             objects[converter] = this.data.converters[converter]["equation"];
         }
 
-        let sortedObjects = Object.keys(objects).sort((a, b) => a.length - b.length).reverse() // sort by length (descending) to prevent substring errors
+        let sortedObjects = Object.keys(objects).sort((a, b) => a.length - b.length).reverse(); // sort by length (descending) to prevent substring errors
 
-        // Call parseObject recursively on all objects to replace the names with their respective values
+        // Only replace [object] with value (bracketed variables only)
         for (var object of sortedObjects) {
             if (equation.includes("[" + object + "]")) {
                 equation = equation.replaceAll("[" + object + "]", this.parseAndEval('(' + objects[object] + ')', history.slice())); // RECURSIVE
@@ -75,6 +75,23 @@ export class Simulation {
         return equation;
     }
 
+    /*
+    Preprocesses the equation to convert Java Math functions (like sin(x)) to Math.sin(x), unless already prefixed.
+    */
+    preprocessMathFunctions(equation) {
+        // List of Java Math functions
+        const mathFunctions = [
+            'sin', 'cos', 'tan', 'asin', 'acos', 'atan', 'atan2', 'sinh', 'cosh', 'tanh',
+            'exp', 'log', 'log10', 'sqrt', 'cbrt', 'abs', 'ceil', 'floor', 'round', 'pow', 'max', 'min', 'signum', 'toRadians', 'toDegrees', 'random', 'hypot', 'expm1', 'log1p', 'copySign', 'nextUp', 'nextDown', 'ulp', 'IEEEremainder', 'rint', 'getExponent', 'scalb', 'fma'
+        ];
+        // Regex to match function calls not already prefixed with Math.
+        const regex = new RegExp('(?<![\w.])(' + mathFunctions.join('|') + ')\\s*\\(', 'g');
+        // Replace bare function calls with Math.<function>(
+        return equation.replace(regex, (match, p1) => {
+            // If already Math.<function>, skip
+            return `Math.${p1}(`;
+        });
+    }
     /*
     Combines parseObject and safeEval to parse and evaluate an equation. It alerts the user if the equation is invalid.
     */
@@ -89,6 +106,8 @@ export class Simulation {
         history.push(equation);
 
         var parsedEquation;
+        // Preprocess for Java Math functions
+        equation = this.preprocessMathFunctions(equation);
         parsedEquation = this.parseObject(equation, history);
         var res = this.safeEval(parsedEquation);
 
@@ -99,6 +118,7 @@ export class Simulation {
         } else {
             return res;
         }
+        
     }
 
     /*
