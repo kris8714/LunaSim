@@ -3,7 +3,7 @@
  * which allows the user to edit the equations and characteristics of the objects in the model.
  */
 
-var PERFORMANCE_MODE = false; // For testing runtime
+var PERFORMANCE_MODE = true; // For testing runtime
 export {PERFORMANCE_MODE};
 
 import { Simulation } from "./engine.js";
@@ -1031,7 +1031,9 @@ function createMathAutocomplete() {
     dropdown.style.position = 'absolute';
     dropdown.style.zIndex = 1000;
     dropdown.style.background = '#fff';
-    dropdown.style.border = '1px solid #ccc';
+    dropdown.style.borderBottom = '2px solid  #a77aff';
+    dropdown.style.borderLeft = '1px solid #a77aff';
+    dropdown.style.borderRight = '1px solid #a77aff';
     dropdown.style.display = 'none';
     dropdown.style.maxHeight = '150px';
     dropdown.style.overflowY = 'auto';
@@ -1105,12 +1107,24 @@ function insertMathFunction(inputElem, fn) {
     inputElem.focus();
 }
 
+//Adds autocomplete/hinting for supported math functions in Java in the equation editor
 function attachMathAutocomplete() {
     document.addEventListener('input', function(e) {
         if (e.target && e.target.tagName === 'INPUT' && e.target.closest('#eqTableBody')) {
             let inputElem = e.target;
             let pos = inputElem.selectionStart;
             let value = inputElem.value.slice(0, pos);
+
+            let openBrackets = (value.match(/\[/g) || []).length;
+            let closeBrackets = (value.match(/\]/g) || []).length;
+            if (openBrackets > closeBrackets) {
+                mathAutocomplete.style.display = 'none';
+                mathAutocompleteSelectedIndex = -1;
+                mathAutocompleteMatches = [];
+                mathAutocompleteInputElem = null;
+                return;
+            }
+            
             let match = value.match(/([a-zA-Z_][a-zA-Z0-9_]*)$/);
             if (match) {
                 showMathAutocomplete(inputElem, match[1]);
