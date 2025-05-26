@@ -653,18 +653,31 @@ function run() {
     if (isNaN(Number(dt))) {
         errors.push("- The dt must be a number");
         document.getElementById("dt").classList = "simParamsInput simParamsInputError";
-    }
+    }    //Creates a set of all variables in the equation for easy access in checkValveInfluences()
 
-    //Creates a set of all variables in the equation for easy access in checkValveInfluences()
     function getEquationVariables(equation) {
-        const matches = equation.match(/[a-zA-Z_]\w*/g);
-        if (!matches) return [];
+        // Find quoted strings first and temporarily remove them
+        const quotes = [];
+        const cleanEquation = equation.replace(/"[^"]*"|'[^']*'/g, match => {
+            quotes.push(match.slice(1, -1)); // Remove quotes and store
+            return `__QUOTE${quotes.length - 1}__`; // Replace with placeholder
+        });
+
+        // Find regular variable names
+        const matches = cleanEquation.match(/[a-zA-Z_][\w\s]*/g) || [];
+        
+        // Restore quoted variable names and create final set
+        const allMatches = [...matches, ...quotes];
+        
+        if (!allMatches.length) return [];
+        
         // Remove math function names and Math.<fn> calls
         const mathFnSet = new Set(JAVA_MATH_FUNCTIONS);
-        return [...new Set(matches.filter(
+        return [...new Set(allMatches.filter(
             v => !mathFnSet.has(v) && !v.startsWith('Math.')
         ))];
-    }  
+    }
+
     //Checks to see if objects referenced in a certain equation have the necessary influences in the diagram
     function checkValveInfluences(){
         const valveNodes = myDiagram.model.nodeDataArray.filter(node => node.category === "valve");
@@ -1019,6 +1032,10 @@ window.addEventListener('beforeunload', function (e) {
 export {data};
 
 // --- Math Function Autocomplete for Equation Editor ---
+const MATH_CONSTANTS = {
+    '|': '||'  // For absolute value
+};
+
 const JAVA_MATH_FUNCTIONS = [
     'sin', 'cos', 'tan', 'asin', 'acos', 'atan', 'atan2', 'sinh', 'cosh', 'tanh',
     'exp', 'log', 'log10', 'sqrt', 'cbrt', 'abs', 'ceil', 'floor', 'round', 'pow', 'max', 'min', 'signum', 'toRadians', 'toDegrees', 'random', 'hypot', 'expm1', 'log1p', 'copySign', 'nextUp', 'nextDown', 'ulp', 'IEEEremainder', 'rint', 'getExponent', 'scalb', 'fma'
@@ -1031,7 +1048,7 @@ function createMathAutocomplete() {
     dropdown.style.position = 'absolute';
     dropdown.style.zIndex = 1000;
     dropdown.style.background = '#fff';
-    dropdown.style.borderBottom = '2px solid  #a77aff';
+    dropdown.style.borderBottom = '1px solid  #a77aff';
     dropdown.style.borderLeft = '1px solid #a77aff';
     dropdown.style.borderRight = '1px solid #a77aff';
     dropdown.style.display = 'none';
@@ -1059,7 +1076,15 @@ function showMathAutocomplete(inputElem, word) {
     mathAutocomplete.style.left = rect.left + window.scrollX + 'px';
     mathAutocomplete.style.top = rect.bottom + window.scrollY + 'px';
     mathAutocomplete.innerHTML = '';
+    
+    // Check for constants first
+    const constantMatches = Object.keys(MATH_CONSTANTS).filter(k => k.startsWith(word.toLowerCase()));
+    
+    // Then check functions
     let matches = JAVA_MATH_FUNCTIONS.filter(fn => fn.startsWith(word));
+    
+    // Combine both types of matches
+    matches = [...constantMatches, ...matches];
     mathAutocompleteMatches = matches;
     mathAutocompleteInputElem = inputElem;
     mathAutocompleteSelectedIndex = -1;
@@ -1102,8 +1127,24 @@ function insertMathFunction(inputElem, fn) {
     // Find the word before the cursor
     let before = value.slice(0, start).replace(/.*?([a-zA-Z0-9_]*)$/, '$1');
     let wordStart = start - before.length;
-    inputElem.value = value.slice(0, wordStart) + fn + '()' + value.slice(end);
-    inputElem.selectionStart = inputElem.selectionEnd = wordStart + fn.length + 1;
+    
+    // Check if it's a constant or special symbol
+    if (MATH_CONSTANTS.hasOwnProperty(fn.toLowerCase())) {
+        const replacement = MATH_CONSTANTS[fn.toLowerCase()];
+        if (fn === '|') {
+            // For absolute value, put the cursor between the pipes
+            inputElem.value = value.slice(0, wordStart) + '|' + value.slice(end) + '|';
+            inputElem.selectionStart = inputElem.selectionEnd = wordStart + 1;
+        } else {
+            // For constants (pi, e), just insert them
+            inputElem.value = value.slice(0, wordStart) + replacement + value.slice(end);
+            inputElem.selectionStart = inputElem.selectionEnd = wordStart + replacement.length;
+        }
+    } else {
+        // For regular functions, add parentheses
+        inputElem.value = value.slice(0, wordStart) + fn + '()' + value.slice(end);
+        inputElem.selectionStart = inputElem.selectionEnd = wordStart + fn.length + 1;
+    }
     inputElem.focus();
 }
 

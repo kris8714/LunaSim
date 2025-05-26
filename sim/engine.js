@@ -77,13 +77,20 @@ export class Simulation {
 
     /*
     Preprocesses the equation to convert Java Math functions (like sin(x)) to Math.sin(x), unless already prefixed.
-    */
-    preprocessMathFunctions(equation) {
+    */    preprocessMathFunctions(equation) {
         // List of Java Math functions
         const mathFunctions = [
             'sin', 'cos', 'tan', 'asin', 'acos', 'atan', 'atan2', 'sinh', 'cosh', 'tanh',
             'exp', 'log', 'log10', 'sqrt', 'cbrt', 'abs', 'ceil', 'floor', 'round', 'pow', 'max', 'min', 'signum', 'toRadians', 'toDegrees', 'random', 'hypot', 'expm1', 'log1p', 'copySign', 'nextUp', 'nextDown', 'ulp', 'IEEEremainder', 'rint', 'getExponent', 'scalb', 'fma'
         ];
+
+        // Handle absolute value notation first (convert |x| to Math.abs(x))
+        equation = equation.replace(/\|([^|]+)\|/g, 'Math.abs($1)');
+
+        // Replace math constants (word boundaries ensure we don't replace partial matches)
+        equation = equation.replace(/\bpi\b/g, 'Math.PI');
+        equation = equation.replace(/\be\b/g, 'Math.E');
+        
         // Regex to match function calls not already prefixed with Math.
         const regex = new RegExp('(?<![\w.])(' + mathFunctions.join('|') + ')\\s*\\(', 'g');
         // Replace bare function calls with Math.<function>(
