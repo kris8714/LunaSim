@@ -41,18 +41,18 @@ body {
   box-sizing: border-box;
   padding: 8px;
   position: relative;
-  font-size: min(22px, 2.8vw);
-  color: #aaaaaa;
+  font-size: min(24px, 2.8vw);
   border-radius: 5px;
-  border: 2px solid #333333;
+  border: 1px solid blue;
   float: right;
-
+  font-family: 'Mona Sans', sans-serif;
+  font-weight:lighter;
   width: 25%;
-  height: 30px;
+  height: 40px;
   right: 25px;
-  bottom: 15px;
-
-  background-color: #202020;
+  bottom: 25px;
+  color: white;
+  background-color: black;
 }
 
 .action {
@@ -64,6 +64,7 @@ body {
 .action button {
   padding: 5px;
   background-color: white;
+  font-size: 11px;
   border: none;
   border-radius: 5px;
   font-size: min(16px, 2.2vw);
@@ -73,8 +74,52 @@ body {
 .action img {
   position: relative;
   float: left;
-  width: 18px;
-  height: 18px;
+  #runButton img {
+  left: 15px;
+  top: 3px;
+  filter: sepia(1) saturate(7) hue-rotate(60deg) brightness(110%);
+}
+
+#runButton:hover {
+  background-color: #0e8a0e;
+  transition: 0.2s;
+}
+
+#loadButton {
+  background-color: #3392b5;
+  color: rgb(221, 249, 255);
+  font-weight:bold;
+  width: 100px;
+}
+
+#loadButton img{
+  left: 10px;
+  top: 3px;
+  filter: sepia(1) saturate(7) hue-rotate(100%) brightness(110%);
+}
+
+#loadButton:hover {
+  background-color: #157091;
+  transition: 0.2s;
+}
+
+#exportButton {
+  background-color: #3392b5;
+  color: rgb(221, 249, 255);
+  font-weight: bold;
+  width: 100px;
+}
+
+#exportButton img{
+  left: 6px;
+  top: 3px;
+  filter: sepia(1%) saturate(5) hue-rotate(120deg) brightness(120%);
+} 
+
+#exportButton:hover {
+  background-color: #157091;
+  transition: 0.2s;
+}
 }
 
 .action label {
@@ -94,47 +139,65 @@ body {
   background-color: #ddd;
 }
 
-#runButton {
-  background-color: #009933;
-  color: white;
-  width: 100px;
+#runButton img {
+  left: 15px;
+  top: 3px;
+  filter: sepia(1) saturate(7) hue-rotate(60deg) brightness(110%);
 }
 
 #runButton:hover {
-  background-color: #33cc33;
+  background-color: #0e8a0e;
   transition: 0.2s;
 }
 
 #loadButton {
-  background-color: #35829f;
-  color: white;
+  background-color: #3392b5;
+  color: rgb(221, 249, 255);
+  font-weight:bold;
   width: 100px;
 }
 
+#loadButton img{
+  left: 10px;
+  top: 3px;
+  filter: sepia(1) saturate(7) hue-rotate(100%) brightness(110%);
+}
+
 #loadButton:hover {
-  background-color: #3ab3df;
+  background-color: #157091;
   transition: 0.2s;
 }
 
 #exportButton {
-  background-color: #35829f;
-  color: white;
+  background-color: #3392b5;
+  color: rgb(221, 249, 255);
+  font-weight: bold;
   width: 100px;
 }
 
+#exportButton img{
+  left: 6px;
+  top: 3px;
+  filter: sepia(1%) saturate(5) hue-rotate(120deg) brightness(120%);
+} 
+
 #exportButton:hover {
-  background-color: #3ab3df;
+  background-color: #157091;
   transition: 0.2s;
 }
 
 #switchThemeButton {
-  background-color: #9933ff;
-  color: white;
+  background-color: rgb(232, 232, 232);
+  color: #333333;
   width: 150px;
 }
 
+#switchThemeButton img {
+  filter: brightness(0);
+}
+
 #switchThemeButton:hover {
-  background-color: #a77aff;
+  background-color: #f0f0f0;
   transition: 0.2s;
 }
 
@@ -622,15 +685,21 @@ input[type=checkbox] {
   transition: 0.2s;
 }
 
+#saveStatus {
+  padding-right: 5px;
+  position: absolute;
+  font-size: 12px;
+  font-style: italic;
+  font-family: 'Mona Sans', sans-serif;
+  color: #777777;
 
+  text-align: right;
+  
+  float: right;
 
-
-
-
-
-
-
-
+  right: calc(25px + 25%);
+  top: -4px;
+}
 
 
 .tools {
