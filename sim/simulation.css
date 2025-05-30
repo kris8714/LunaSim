@@ -302,13 +302,6 @@ body {
   /* Only round the first and last button for a pill effect */
 }
 
-.webTabs button:first-child {
-  border-top-left-radius: 18px;
-}
-.webTabs button:last-child {
-  border-top-right-radius: 18px;
-}
-
 .webTabs button:hover {
   background: #008eb9;;
   color: white;
@@ -327,7 +320,6 @@ body {
   padding-bottom: 20px;
   margin-left: 25px;
   margin-right: 25px;
-  position: relative;
   border-radius:22px;
   border-top-left-radius: 0px;
   overflow: hidden;
@@ -349,13 +341,16 @@ body {
 
 
 #myDiagram {
-  width: 90%;
-  height: 94%;
+  width: 97.5%;
+  height: calc(94% - 50px);
   border: 1px solid black;
   background-color: white;
-  position: absolute;
   right: 20px;
-  top: 15px;
+  left: 20px;
+  position: relative;
+  top: 70px;
+  bottom: 70px;
+  border-radius: 15px;
 }
 
 canvas {
@@ -699,36 +694,29 @@ canvas {
 
 
 .tools {
-  display: block;
-  width: max(82px, min(100px, 10%));
-  height: 95%;
+  display: flex;
+  width: 90%;
+  height: 45px;
   position: absolute;
-  left: 20px;
+  left: 4%;
   top: 15px;
   border: none;
   z-index: 3;
+  gap: 3%;
 }
 
 .tools button {
   background-color: #c9f2ff;
   border: 1px solid black;
-  width: 100%;
-  height: 16.55%;
+  flex: 1;
+  height: 100%;
   overflow-wrap: anywhere;
   overflow-y: hidden;
-  font-size: min(18px, 2.4vw);
+  font-size: min(16px, 1.8vw);
   font-family: 'Mona Sans', sans-serif;
   transition: background-color 0.6s;
-}
-
-.tools button:first-child{
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-}
-
-.tools button:last-child{
-  border-bottom-right-radius: 5px;
-  border-bottom-left-radius: 5px;
+  white-space: nowrap;
+  border-radius: 5px;
 }
 
 .tools button:hover {
@@ -738,6 +726,7 @@ canvas {
 
 .tools button.active {
   background-color: #93efffc7;
+  border: 2px solid rgb(50, 54, 255);
 }
 
 

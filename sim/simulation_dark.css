@@ -276,13 +276,16 @@ body {
 
 
 #myDiagram {
-  width: 90%;
-  height: 94%;
-  border: 2px solid #3333cc;
-  background-color: #222222;
-  position: absolute;
+  width: 97.5%;
+  height: calc(94% - 50px);
+  border: 2px solid rgb(0, 0, 255);
+  background-color: rgb(51, 51, 51);
   right: 20px;
-  top: 15px;
+  left: 20px;
+  position: relative;
+  top: 70px;
+  bottom: 70px;
+  border-radius: 15px;
 }
 
 #textarea {
@@ -703,26 +706,28 @@ input[type=checkbox] {
 
 
 .tools {
-  display: block;
-  width: max(82px, min(100px, 10%));
-  height: 95%;
+  display: flex;
+  width: 90%;
+  height: 45px;
   position: absolute;
-  left: 20px;
+  left: 4%;
   top: 15px;
   border: none;
   z-index: 3;
+  gap: 3%;
 }
 
 .tools button {
   background-color: #222222;
   border: 2px solid #3333cc;
   color: white;
-  width: 100%;
-  height: 16.55%;
+  flex: 1;
+  height: 100%;
   overflow-wrap: anywhere;
   overflow-y: hidden;
-  font-size: min(18px, 2.4vw);
+  font-size: min(16px, 1.8vw);
   transition: background-color 0.3s;
+  white-space: nowrap;
 }
 
 .tools button:hover {

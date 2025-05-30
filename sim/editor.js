@@ -972,6 +972,29 @@ document.getElementById("loadButton").addEventListener("click", function () {
 
 init();
 
+
+document.addEventListener("keydown", function(e){
+    const key = e.key.toLowerCase();
+    if (key === "p"){
+        document.getElementById("pointer_button").click();
+    }
+    if (key === "s"){
+        document.getElementById("stock_button").click();
+    }
+    if (key === "c"){
+        document.getElementById("cloud_button").click();
+    }
+    if (key === "v"){
+        document.getElementById("variable_button").click();
+    }
+    if (key === "f"){
+        document.getElementById("flow_button").click();
+    }
+    if (key === "i"){
+        document.getElementById("influence_button").click();
+    }
+});
+
 // add button event listeners
 // mode buttons
 document.getElementById("pointer_button").addEventListener("click", function() { setMode("pointer", "pointer"); toolSelect(event); });
@@ -980,6 +1003,9 @@ document.getElementById("cloud_button").addEventListener("click", function() { s
 document.getElementById("variable_button").addEventListener("click", function() { setMode("node", "variable"); toolSelect(event); });
 document.getElementById("flow_button").addEventListener("click", function() { setMode("link", "flow"); toolSelect(event); });
 document.getElementById("influence_button").addEventListener("click", function() { setMode("link", "influence"); toolSelect(event); });
+
+
+
 // Set initial mode as pointer (for UI shading)
 document.getElementById("pointer_button").click();
 
@@ -997,9 +1023,9 @@ document.getElementById("exportButton").addEventListener("click", function() { e
 
 // clear button
 document.getElementById("clearButton").addEventListener("click", function() {
-    let confirmNewModel = confirm("Do you want to clear this model and start a new one? Your current project will be wiped!");
+    let confirmNewModel = confirm("Clear this model and start a new one? Your current project will be wiped!");
     if (confirmNewModel) {
-        let doubleConfirm = confirm("Are you REALLY sure? If you want to save the project you are currently working on, press CANCEL and export it first; otherwise, the data will be cleared. You've been warned!");
+        let doubleConfirm = confirm("Are you sure? If you want to save the project you are currently working on, press 'Cancel' and export it first; otherwise, the data will be cleared. You've been warned!");
         if (!doubleConfirm) return;
         
         // Reset Model
@@ -1215,4 +1241,4 @@ function attachMathAutocomplete() {
 }
 
 attachMathAutocomplete();
-// --- End Math Function Autocomplete ---
+
