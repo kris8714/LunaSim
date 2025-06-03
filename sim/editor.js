@@ -263,10 +263,12 @@ function buildTemplates() {
     }
 
     // Node templates
+    var fillStock =  "#ff8a8a";
+
     myDiagram.nodeTemplateMap.add("stock",
         $(go.Node, nodeStyle(),
             $(go.Shape, shapeStyle(),
-                new go.Binding("fill", "label", function (label) { return isGhost(label) ? "#ffffff" : fillColor;}), // change color if ghost ($ in front of label)
+                new go.Binding("fill", "label", function (label) { return isGhost(label) ? "#ffffff" : fillStock;}), // change color if ghost ($ in front of label)
                 { desiredSize: new go.Size(50, 30),
                     fill: "#ffcc99"
                 }),

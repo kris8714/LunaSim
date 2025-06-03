@@ -1,87 +1,71 @@
 body {
   font-family: 'Mona Sans', sans-serif;
-  font-weight: lighter;
-  margin: 0px;
+  background: rgb(8, 0, 63);
+  margin-left: 0px;
+  margin-right: 0px;
+  overflow: hidden;
 }
 
-#grayEffectDiv {
-  position: fixed;
-  height: 100%; width: 100%;
-  border: none;
-  z-index: 1001;
-  display: none;
-  background-color: #00000077;
-}
-
-#header {
-  position: fixed;
-
-  height: 100px; width: 100%;
-  border-bottom: 2px solid black;
-  background-color: white;
-
-  z-index: 1000;
-}
-
-#logoContainer {
-  font-size: min(36px, 15vw);
-  font-weight: bold;
-  text-align: left;
-  position: relative;
-  margin-left: 20px;
-  bottom: 5px;
+.header-row {
+  display: flex;
+  align-items: center;
+  width: 75%;
+  height: 40px;
+  float: right;
 }
 
 #logoImage {
-  height: 4vb; position: relative; top: 5px;
+  height: 40px;
+  position: relative;
+  right: -10px;
 }
 
 #model_name {
   box-sizing: border-box;
   padding: 8px;
-  position: relative;
+  position: right;
   font-size: min(24px, 2.8vw);
   border-radius: 5px;
-  border: 1px solid black;
+  border: none;
   float: right;
   font-family: 'Mona Sans', sans-serif;
   font-weight:lighter;
   width: 25%;
   height: 40px;
   right: 25px;
-  bottom: 25px;
-
-
-  background-color: #eeeeee;
+  top: 5px;
+  margin-right: 5px;
+  color: white;
+  background-color: rgb(104, 84, 220);
 }
 
 #saveStatus {
-  padding-right: 5px;
-  position: absolute;
-  font-size: 12px;
-  font-style: italic;
-  color: #777777;
-
+  margin-right: 10px;
+  position: relative;
+  font-weight: bold;
+  font-size: 13px;
+  color: #a996ff;
   text-align: right;
-  
   float: right;
-
-  right: calc(25px + 25%);
-  top: -4px;
+  width: 250px;
 }
 
 .action {
-  position: absolute;
-  right: 25px;
-  bottom: 15px;
+  display: inline-block;
+  margin-right: 0;
+  position: static;
+  top: unset;
+  left: unset;
 }
 
 .action button {
-  padding: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
   font-family: 'Mona Sans', sans-serif;
   font-size: 11px;
   background-color: white;
   border: none;
+  height: 45px;
   border-radius: 5px;
   font-size: min(16px, 2.2vw);
   transition: background-color 0.6s;
@@ -113,15 +97,13 @@ body {
 
 #runButton {
   background-color: #009933;
-  color: rgb(204, 255, 216);
-  font-weight: bold;
+  color: rgb(255, 255, 255);
   width: 100px;
 }
 
 #runButton img {
   left: 15px;
   top: 3px;
-  filter: sepia(1) saturate(7) hue-rotate(60deg) brightness(110%);
 }
 
 #runButton:hover {
@@ -131,15 +113,16 @@ body {
 
 #loadButton {
   background-color: #3392b5;
-  color: rgb(221, 249, 255);
-  font-weight:bold;
+  color: rgb(255, 255, 255);
   width: 100px;
 }
 
 #loadButton img{
   left: 10px;
   top: 3px;
-  filter: sepia(1) saturate(7) hue-rotate(100%) brightness(110%);
+  height: 18px;
+  width: 18px;
+  filter: invert(1);
 }
 
 #loadButton:hover {
@@ -149,15 +132,16 @@ body {
 
 #exportButton {
   background-color: #3392b5;
-  color: rgb(221, 249, 255);
-  font-weight: bold;
+  color: rgb(255, 255, 255);
   width: 100px;
 }
 
 #exportButton img{
   left: 6px;
   top: 3px;
-  filter: sepia(1%) saturate(5) hue-rotate(120deg) brightness(120%);
+  height: 18px;
+  width: 18px;
+  filter:invert(1);
 } 
 
 #exportButton:hover {
@@ -187,7 +171,7 @@ body {
   background-color: #9933ff;
   color: rgb(233, 209, 255);
   font-weight: bold;
-  width: 160px;
+  width: 75px;
   transition: 0.3s;
 }
 #docsButton img {
@@ -265,75 +249,72 @@ body {
 #nav {
   width: calc(100% - 50px);
   height: 15px;
-
-  padding-left: 25px;
-  padding-right: 25px;
-  padding-top: 120px;
+  padding-left: 0px;
+  padding-right: 0pxx;
+  padding-top: 0px;
+  transform: translateY(0px);
+  display: flex;
 }
 
 
 .webTabs {
   display: inline-block;
   border: none;
-  height: 42px;
-  border-top-left-radius: 18px;
-  border-top-right-radius: 18px;
+  height: 50px;
   overflow: hidden;
-  position: relative; /* Added */
+  position: absolute;
+  padding-left: 1px; /* Added */
   z-index: 20;        /* Added: higher than #myDiagram's z-index */
-  background: white;  /* Optional: ensures tab buttons have a solid background */
+  transform: translateY(-40px);  /* Optional: ensures tab buttons have a solid background */
 }
 
 .webTabs button {
-  background: #00617f; /* fallback for inactive */
+  background: rgb(164, 149, 249); /* fallback for inactive */
   height: 100%;
   border: none;
-  padding: 10px 14px;
+  padding: 5px 12px;
   font-weight: lighter;
-  color: rgba(255, 255, 255, 1);
+  color: rgb(255, 255, 255);
   font-size: min(20px, 2.8vw);
+  font-size: 18px;
   margin: 0px;
   font-family: 'Mona Sans', sans-serif;
-  transition: background 0.3s, color 0.3s;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  border: 2px solid rgb(0, 0, 173);
+  transition: 0.3s;
+  border-top-left-radius: 18px;
+  border-top-right-radius: 18px;
   border-bottom: none;
   /* Only round the first and last button for a pill effect */
 }
 
 .webTabs button:hover {
-  background: #008eb9;;
+  background: rgb(105, 84, 221);
   color: white;
   transition: background 0.25s, color 0.25s;
-  background: #008eb9;
-  border: 2px solid blue;
   border-bottom: none;
 }
 
 .tabContent {
-  background: #008eb9;
+  background: linear-gradient(rgb(105, 84, 221), rgb(19, 0, 97) );
   position: relative;
-  width: calc(100% - 50px);
-  height: 600px;
-  top: 25px;
+  width: calc(100%);
+  height: 92vh;
   padding-bottom: 20px;
-  margin-left: 25px;
-  margin-right: 25px;
-  border-radius:22px;
-  border-top-left-radius: 0px;
+  margin-left: 0px;
+  margin-right: 0;
   overflow: hidden;
   z-index: 10;
-  border: 2px solid blue;
+  display: flex;
+  transform: translateY(-7px);
 }
 
 .webTabs button.active {
   transform: translateY(0.5px);
-  background: #008eb9;
-  border: 2px solid blue;
-  color: #eee;
+  background: rgb(105, 84, 221);
+  color: #ffffff;
   z-index: 100;
-  transition: background 0.3s, color 0.3s;
+  margin-left: 0px;
+  font-size: 20px;
+  transition: 0.3s;
   border-bottom: none;
 }
 
@@ -341,19 +322,21 @@ body {
 
 
 #myDiagram {
-  width: 97.5%;
-  height: calc(94% - 50px);
+  width: calc(53% - 150px);
+  height: calc(100% - 30px);
   border: 1px solid black;
   background-color: white;
-  right: 20px;
-  left: 20px;
-  position: relative;
-  top: 70px;
-  bottom: 70px;
+  left: 95px;
+  position: absolute;
+  top: 15px;
   border-radius: 15px;
+  outline: none !important; /* Prevents focus highlighting */
+  -webkit-tap-highlight-color: transparent; /* Prevents tap highlight on mobile */
+  user-select: none; /* Prevents text selection */
 }
 
 canvas {
+  cursor: crosshair;
   position: absolute;
   top: 0px;
   left: 0px;
@@ -362,6 +345,8 @@ canvas {
   touch-action: none;
   width: 598px;
   height: 498px;
+  outline: none !important;
+  -webkit-tap-highlight-color: transparent;
 }
 
 #tabManager {
@@ -492,36 +477,36 @@ canvas {
 
 
 #eqEditorTitle {
-  position: relative;
+  margin-top: 10px;
   color: #ffffff;
   font-size: 25px;
-  margin-left: 20px;
-  top: 10px;
+  margin-bottom: 0px;
+  margin-left: 15px;
+  font-weight: lighter;
 }
 
 
 #eqEditor {
-  background-color: #2ea2ccff;
-  width: calc(100% - 50px);
-  position: relative;
-  
-  top: 30px;
-  font-size: min(18px, 2.8vw);
-
-  margin-left: 25px;
-  margin-right: 25px;
+  background-color: rgb(37, 0, 173);
+  width: calc(50% - 30px);
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  font-size: min(16px, 1.8vw);
+  border-radius: 10px;
+  height: calc(100% - 30px);
 }
 
 #eqTableDiv {
   position: relative;
-  background-color: white;
+  background-color: rgb(169, 155, 246);
   border: 1px solid black;
-  margin-left: 20px;
-  margin-right: 20px;
-  width: 100% - 40px;
-  height: 350px;
-  overflow: scroll;
+  margin: 15px;
+  width: calc(100% - 30px);
+  height: calc(99% - 60px);
   overflow-x: hidden;
+  top: -6px;
+  border-radius: 10px;
 }
 
 
@@ -590,15 +575,14 @@ canvas {
 
 #simParams {
   background-color: #35829fff;
-  width: calc(100% - 50px);
+  width: calc(65%);
   height: 220px;
   position: relative;
-
-  top: 30px;
+  left: 25px;
+  top: 45px;
   font-size: min(18px, 2.8vw);
-
-  margin-left: 25px;
-  margin-right: 25px;
+  border-radius: 10px;
+  margin-bottom: 20px;
 }
 
 .simParamCol {
@@ -694,39 +678,78 @@ canvas {
 
 
 .tools {
-  display: flex;
-  width: 90%;
-  height: 45px;
+  border-radius: 15px;
+  background: rgb(37, 0, 173);
+  width: 75px;
+  height: calc(100% - 30px);
   position: absolute;
-  left: 4%;
+  left: 10px;
   top: 15px;
   border: none;
   z-index: 3;
-  gap: 3%;
+  display: flex;
+  flex-direction: column;
 }
 
 .tools button {
-  background-color: #c9f2ff;
-  border: 1px solid black;
-  flex: 1;
-  height: 100%;
+  height: 60px;
+  width: 60px;
+  margin: 7.5px;
   overflow-wrap: anywhere;
   overflow-y: hidden;
   font-size: min(16px, 1.8vw);
   font-family: 'Mona Sans', sans-serif;
-  transition: background-color 0.6s;
   white-space: nowrap;
   border-radius: 5px;
+  background-color: transparent;
+  border: none;
+  justify-content: center;
+  align-items: center;
+  padding-top: 5.5px;
+}
+
+#pointer_button img{
+  height: 30px;
+  width: 30x;
+}
+
+#stock_button img{
+  height: 33px;
+  width: 33px;
+  filter: invert(1);
+}
+
+#cloud_button img{
+  height: 32px;
+  width: 32px;
+  filter: invert(1);
+}
+
+#variable_button img{
+  height: 26px;
+  width: 26vpx;
+  filter: invert(1);
+}
+
+#flow_button img{
+  height: 36px;
+  width: 36px;
+  filter: invert(1);
+}
+
+
+button{
+  overflow: hidden;
 }
 
 .tools button:hover {
-  background-color: #93efffc7;
-  transition: background-color 0.6s;
+  background-color: #4319ff;
+  transition: 0.3s;
 }
 
 .tools button.active {
-  background-color: #93efffc7;
-  border: 2px solid rgb(50, 54, 255);
+  background-color: #4319ff;
+  transition: 0.3s;
 }
 
 
