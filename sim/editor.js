@@ -263,7 +263,7 @@ function buildTemplates() {
     }
 
     // Node templates
-    var fillStock =  "#ff8a8a";
+    var fillStock =  "#72c6ff";
 
     myDiagram.nodeTemplateMap.add("stock",
         $(go.Node, nodeStyle(),
@@ -287,7 +287,8 @@ function buildTemplates() {
             $(go.Shape, shapeStyle(),
                 {
                     figure: "Cloud",
-                    desiredSize: new go.Size(30, 30)
+                    desiredSize: new go.Size(30, 30),
+                    fill: "#e3f3ff" // very light blue
                 })
         ));
 
@@ -319,7 +320,7 @@ function buildTemplates() {
     myDiagram.nodeTemplateMap.add("variable",
         $(go.Node, nodeStyle(),
             $(go.Shape, shapeStyle(),
-            new go.Binding("fill", "label", function (label) {return isGhost(label) ? "#ffffff" : fillColor;}), // change color if ghost ($ in front of label)
+            new go.Binding("fill", "label", function (label) {return isGhost(label) ? "#ffffff" : "#c2ffd3";}), // change color if ghost ($ in front of label)
                 {
                     figure: "Ellipse",
                     desiredSize: new go.Size(25, 25)
@@ -349,7 +350,7 @@ function buildTemplates() {
                 new go.Binding("visible", "", isBiflow),
                 {
                     fill: "#000000",
-                    stroke: "#3489eb",
+                    stroke: "#000000",
                     fromArrow: "Backward",
                     scale: 2.0,
                 }),
@@ -367,10 +368,10 @@ function buildTemplates() {
             { curve: go.Link.Bezier, toShortLength: 8, reshapable: true },
             new go.Binding("curviness", "curviness").makeTwoWay(),
             $(go.Shape,
-                { stroke: "orange", strokeWidth: 1.5 }),
+                { stroke: "#cccccc", strokeWidth: 1.5 }), // light gray
             $(go.Shape,
                 {
-                    fill: "orange",
+                    fill: "#cccccc", // light gray
                     stroke: null,
                     toArrow: "Standard",
                     scale: 1.5
@@ -475,7 +476,7 @@ function updateTable(load = false) {
 
             var $tr = $('<tr>').append(
                 $('<td>').append(
-                    $('<input class="eqTableInputBox">').attr('type', 'text').attr('name', 'type').attr('value', category).attr('readonly', true) // add the type of the object to the row (uneditable by user)
+                    $('<input class="eqTableInputBox">').attr('type', 'text').attr('name', 'type').attr('value', category).attr('readonly', true).css('width', '150px') // fixed width for type column
                 ),
                 $('<td>').append(
                     $('<input class="eqTableInputBox">').attr('type', 'text').attr('name', 'name').attr('value', item.label).attr('readonly', true) // add the name of the object to the row (uneditable by user)
@@ -487,33 +488,29 @@ function updateTable(load = false) {
             ).appendTo($tbody);
 
             if (category === "stock" || category === "flow") {
-                // append a checkbox 
                 $('<td>').append(
-                    // this checkbox determines if the stock is non-negative or if the flow is uniflow
-                    // also has an event listener that calls the save function when the checkbox is changed (to update arrows on flows)
-                    $('<input>').attr('type', 'checkbox').attr('name', 'checkbox').attr('class', 'nncheckbox').change(function () {
-                        loadTableToDiagram();
-                    }))
-                    .appendTo($tr);
+                    $('<div>').attr('class', 'toggle-switch-container').append(
+                        $('<label>').attr('class', 'toggle-switch').append(
+                            $('<input>').attr('type', 'checkbox').attr('name', 'checkbox')
+                                .change(function() {
+                                    loadTableToDiagram();
+                                }),
+                            $('<span>').attr('class', 'toggle-slider')
+                        )
+                    )
+                ).appendTo($tr);
             } else {
-                // if the object is a variable or cloud, add a blank column
-                $('<td>').appendTo($tr);
+                $('<td>').appendTo($tr); // empty cell for non-stock/flow rows
             }
 
-            // depending on the category, change the color of the row (only first 2 columns)
-            if (category === "stock") {
-                // get the first 2 columns of the row
-                $tr.find('td').slice(0, 3).addClass("eqStockBox");
-            } else if (category === "flow") {
-                $tr.find('td').slice(0, 3).addClass("eqFlowBox");
-            } else if (category === "variable") {
-                $tr.find('td').slice(0, 3).addClass("eqVariableBox");
-            }
-
+            // if loading from a saved model, populate the equation and checkbox values
             if (load) {
-                // populate the equation and checkbox from json
-                $tr.find('input[name="equation"]').val(item.equation);
-                $tr.find('input[name="checkbox"]').prop('checked', item.checkbox);
+                if (item.equation !== undefined) {
+                    $tr.find('input[name="equation"]').val(item.equation);
+                }
+                if (item.checkbox !== undefined) {
+                    $tr.find('input[name="checkbox"]').prop('checked', item.checkbox);
+                }
             }
         }
     });
@@ -617,12 +614,7 @@ function closeSimErrorPopup() {
     document.getElementById("simErrorPopup").style.display = "none";
     document.getElementById("grayEffectDiv").style.display = "none";
 }
-/* Resets the Simulation Error Popup (Unused)
-function resetSimErrorPopup() {
-    document.getElementById("simErrorPopupTitle").innerHTML = "<b>Oops, Simulation Error! :(<b>"
-    document.getElementById("simErrorPopupDesc").innerHTML = "Placeholder Message"
-    document.getElementById("simErrorPopupDismiss").innerHTML = "Dismiss"
-}*/
+
 
 function run() {
   
@@ -710,10 +702,10 @@ function run() {
     }
 
     if (errors.length != 0) {
-        window.scroll({
-            top: document.body.scrollHeight,
-            behavior: "smooth",
-        });
+        // window.scroll({
+        //     top: document.body.scrollHeight,
+        //     behavior: "smooth",
+        // });
         document.getElementById("simErrorPopupDesc").innerHTML = "Please fix the following errors: <br><br>" + errors.join("<br>");
         showSimErrorPopup();
         return;
@@ -734,12 +726,11 @@ function run() {
       errors.push("- The dt must be positive");
       document.getElementById("dt").classList = "simParamsInput simParamsInputError";
     }
-
     if (errors.length != 0) {
-        window.scroll({
-            top: document.body.scrollHeight,
-            behavior: "smooth",
-        });
+        // window.scroll({
+        //     top: document.body.scrollHeight,
+        //     behavior: "smooth",
+        // });
         document.getElementById("simErrorPopupDesc").innerHTML = "There are errors with the simulation parameters:<br><br>" + errors.join("<br>");
         showSimErrorPopup();
         return;
@@ -748,12 +739,11 @@ function run() {
     // Error Checking part 3: High Step-Count Checker (avoids freezing)
     if((Number(endTime) - Number(startTime)) / Number(dt) >= 1000){ // 1000+ Steps
         if (!document.getElementById("simParamHighStepCount").checked) {
-            // The user did not enable high step-count simulations
             document.getElementById("dt").classList = "simParamsInput simParamsInputWarning";
-            window.scroll({
-                top: document.body.scrollHeight,
-                behavior: "smooth",
-            });
+            // window.scroll({
+            //     top: document.body.scrollHeight,
+            //     behavior: "smooth",
+            // });
             document.getElementById("simErrorPopupDesc").innerHTML = "This simulation contains 1000+ steps; as such, running it may lead to lag or the website freezing. Please adjust dt or enable high step-count simulations.<br><br>If you proceed with the simulation, it may be wise to export your LunaSim project in case the website crashes.";
             showSimErrorPopup();
             return;
@@ -976,24 +966,44 @@ init();
 
 
 document.addEventListener("keydown", function(e){
+    const target = e.target;
+    const tag = target.tagName.toLowerCase();
+    
+    // Block if target is any kind of text input
+    if (tag === "input" || tag === "textarea" || target.isContentEditable) {
+        return;
+    }
+
+    // Block if editing a GoJS label
+    if (target.classList && (
+        target.classList.contains('go-text-editor') ||  // In-place editor input element
+        target.classList.contains('go-editor') ||       // Editor container
+        target.closest('.go-text-editor') ||           // Inside editor input
+        target.closest('.go-editor')                   // Inside editor container
+    )) {
+        return;
+    }
+
+    // Block if diagram is in a transaction (like editing text)
+    if (myDiagram && myDiagram.isModifying) {
+        return;
+    }
+
+    // Map keys to button IDs
+    const keyMap = {
+        p: "pointer_button",
+        s: "stock_button", 
+        v: "variable_button",
+        c: "cloud_button",
+        i: "influence_button",
+        f: "flow_button",
+        d: "drag_button"
+    };
+
     const key = e.key.toLowerCase();
-    if (key === "p"){
-        document.getElementById("pointer_button").click();
-    }
-    if (key === "s"){
-        document.getElementById("stock_button").click();
-    }
-    if (key === "c"){
-        document.getElementById("cloud_button").click();
-    }
-    if (key === "v"){
-        document.getElementById("variable_button").click();
-    }
-    if (key === "f"){
-        document.getElementById("flow_button").click();
-    }
-    if (key === "i"){
-        document.getElementById("influence_button").click();
+    const buttonId = keyMap[key];
+    if (buttonId) {
+        document.getElementById(buttonId).click();
     }
 });
 
@@ -1006,7 +1016,41 @@ document.getElementById("variable_button").addEventListener("click", function() 
 document.getElementById("flow_button").addEventListener("click", function() { setMode("link", "flow"); toolSelect(event); });
 document.getElementById("influence_button").addEventListener("click", function() { setMode("link", "influence"); toolSelect(event); });
 
+// add button event listeners for utility functions
+document.getElementById("drag_button").addEventListener("click", function() { 
+    setMode("pointer", "pointer");
+    myDiagram.toolManager.panningTool.isEnabled = false;
+    myDiagram.toolManager.dragSelectingTool.isEnabled = true;
+    myDiagram.currentTool = myDiagram.toolManager.dragSelectingTool;
+    toolSelect(event);
+});
 
+document.getElementById("undo_button").addEventListener("click", function() {
+    if (myDiagram.commandHandler.canUndo()) {
+        myDiagram.commandHandler.undo();
+    }
+});
+
+document.getElementById("redo_button").addEventListener("click", function() {
+    if (myDiagram.commandHandler.canRedo()) {
+        myDiagram.commandHandler.redo();
+    }
+});
+
+document.getElementById("center_button").addEventListener("click", function() {
+    myDiagram.scale = 1.0;
+    myDiagram.commandHandler.scrollToPart(myDiagram.findNodeForKey(myDiagram.model.nodeDataArray[0]?.key));
+    myDiagram.commandHandler.zoomToFit();
+});
+
+// Return to normal mode after using drag tool
+document.addEventListener("mouseup", function() {
+    if (SD.itemType === "pointer" && myDiagram.toolManager.dragSelectingTool.isEnabled) {
+        myDiagram.toolManager.dragSelectingTool.isEnabled = false;
+        myDiagram.toolManager.panningTool.isEnabled = true;
+        document.getElementById("pointer_button").click();
+    }
+});
 
 // Set initial mode as pointer (for UI shading)
 document.getElementById("pointer_button").click();
@@ -1022,6 +1066,32 @@ document.getElementById("defaultOpen").click();
 document.getElementById("load-actual-button").addEventListener("change", loadModel);
 document.getElementById("runButton").addEventListener("click", function() { run(); });
 document.getElementById("exportButton").addEventListener("click", function() { exportData(); });
+
+// Add image export functionality
+document.getElementById("image_button").addEventListener("click", function() {
+    // First center and fit diagram
+    myDiagram.scale = 1.0;
+    myDiagram.commandHandler.scrollToPart(myDiagram.findNodeForKey(myDiagram.model.nodeDataArray[0]?.key));
+    myDiagram.commandHandler.zoomToFit();
+    
+    // Add small delay to allow diagram to finish centering
+    setTimeout(function() {
+        // Create a canvas and get diagram as image
+        const img = myDiagram.makeImageData({
+            background: "white",
+            scale: 1.0,
+            maxSize: new go.Size(9999, 9999)
+        });
+
+        // Create temporary link element to trigger download
+        const link = document.createElement('a');
+        link.download = `${document.getElementById("model_name").value || 'diagram'}.png`;
+        link.href = img;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }, 100); // 100ms delay
+});
 
 // clear button
 document.getElementById("clearButton").addEventListener("click", function() {

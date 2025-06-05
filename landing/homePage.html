@@ -22,203 +22,37 @@
 </head>
 
 <style>
-  body {
-    font-family: 'Mona Sans', sans-serif;
-    line-height: 60px;
-  }
-
-  * {
-    box-sizing: border-box
-  }
-
-  .mySlides {
-    display: none
-  }
-
-  img {
-    vertical-align: middle;
-  }
-
-  /* Slideshow container */
-  .slideshow-container {
-    max-width: 1000px;
-    position: relative;
-    margin: auto;
-  }
-
-  /* Next & previous buttons */
-  .prev,
-  .next {
-    cursor: pointer;
-    position: absolute;
-    top: 50%;
-    width: auto;
-    padding: 16px;
-    margin-top: -22px;
-    color: rgb(43, 43, 48);
-    font-weight: bold;
-    font-size: 30px;
-    transition: 0.1s;
-    user-select: none;
-  }
-
-  /* Position the "next button" to the right */
-  .next {
-    right: -50px;
-  }
-
-  /* Position the "prev button" to the left */
   
-  .prev {
-    left: -50px;
-  }
-
-  /* On hover, move arrows slightly downward*/
-  .prev:hover,
-  .next:hover {
-    transform: translateY(2px);
-  }
-
-  /* Caption text */
-  .text {
-    color: #040303;
-    font-size: 28px;
-    font-weight: lighter;
-    padding: 8px 12px;
-    background-color: rgba(255, 255, 255, 0.8);
-    position: absolute;
-    bottom: 8px;
-    width: 100%;
-    text-align: center;
-  }
-
-  /* Number text (1/3 etc) */
-  .numbertext {
-    color: #f2f2f2;
-    font-size: 12px;
-    padding: 8px 12px;
-    position: absolute;
-    top: 0;
-  }
-
-  /* The dots/bullets/indicators */
-  .dot {
-    cursor: pointer;
-    height: 15px;
-    width: 15px;
-    margin: 0 2px;
-    background-color: #80cbe0;
-    border-radius: 50%;
-    display: inline-block;
-    transition: background-color 0.6s ease;
-  }
-
-  .active,
-  .dot:hover {
-    background-color: #986ec0;
-  }
-
-  /* Fading animation */
-  .fade {
-    animation-name: fade;
-    animation-duration: 1.5s;
-  }
-
-  @keyframes fade {
-    from {
-      opacity: .4
-    }
-
-    to {
-      opacity: 1
-    }
-  }
-
-  /* On smaller screens, decrease text size */
-  @media only screen and (max-width: 300px) {
-
-    .prev,
-    .next,
-    .text {
-      font-size: 11px
-    }
-  }
-
-  .tablinks {
-    background-color: inherit;
-    border: none;
-    width: 20vw;
-    height: 100%;
-    font-weight: bold;
-    color: white;
-    font-size: min(40px, 3vw);
-  }
-
-  .tablinks:hover {
-    font-weight: normal;
-  }
-
-  .tablinks.active {
-    background-color: rgb(0, 108, 191);
-  }
-
-  .tabContent {
-    width: 100%;
-    height: 90vh;
-  }
-
-  table {
-    border-collapse: collapse;
-    width: 100%;
-  }
-
-  tr,
-  td {
-    border-bottom: 2px solid #5ca0cb;
-    padding: 10px;
-  }
-
-  a:link {
-    text-decoration: none;
-    color: black;
-  }
-
-  a:visited {
-    text-decoration: none;
-    color: rgb(125, 63, 156);
-  }
-
-  a:hover {
-    text-decoration: none;
-    color: rgb(0, 105, 191);
-  }
-
-  a:active {
-    text-decoration: none;
-    color: black;
-  }
 </style>
 
-<body>
-  <div class="tabContent" id="home">
-    <p style="font-size: min(40px, 5vw); text-align: center; font-weight: bold;">Design and run powerful simulations,
-      all in your browser with...</p>
-    <p style="font-size: min(80px, 8vw); text-align: center; font-weight: bold; height: 5%"><img
-        src="../img/lunaLogo.svg" style="height: 1em; position: top; top: 10px; margin-right: 10px">LunaSim</p>
-    <button id="startButton" onclick="window.location.href='../sim/systemDynamics.html'">
-      Launch Now
-    </button>
-    <img src="../img/modelView.png" alt="Model view"
-      style="width: min(100%, 80vw); margin-left: calc((100% - min(100%, 80vw))/2);">
+<body>  <div class="tabContent" id="home">
+    <div class="fade-in-section">
+      <p style="font-size: min(40px, 5vw); text-align: center; font-weight: bold;">Design and run powerful simulations,
+        all in your browser with...</p>
+    </div>
+    <div class="fade-in-section delay-1">
+      <p style="font-size: min(80px, 8vw); text-align: center; font-weight: bold; height: 5%"><img
+          src="../img/lunaLogo.svg" style="height: 1em; position: top; top: 10px; margin-right: 10px">LunaSim</p>
+    </div>
+    <div class="fade-in-section delay-2">
+      <button id="startButton" onclick="window.location.href='../sim/systemDynamics.html'">
+        Launch Now
+      </button>
+    </div>
+    <div class="fade-in-section delay-3">
+      <img src="../img/modelView.png" alt="Model view"
+        style="width: min(100%, 80vw); margin-left: calc((100% - min(100%, 80vw))/2);">
+    </div>
     <hr>
-    <p style="font-size: min(40px, 5vw); text-align: center; font-weight: bold;">What LunaSim offers</p>
-    <div class="slideshow-container">
-
-      <div class="mySlides fade">
-        <div class="numbertext">1 / 6</div>
-        <img src="../img/modelView2.png" style="width:100%">
-        <div class="text"><span>Design Stock and Flow Diagrams</span></div>
-      </div>
+    <div class="fade-in-section">
+      <p style="font-size: min(40px, 5vw); text-align: center; font-weight: bold;">What LunaSim offers</p>
+    </div>    <div class="fade-in-section">
+      <div class="slideshow-container">
+        <div class="mySlides fade">
+          <div class="numbertext">1 / 6</div>
+          <img src="../img/modelView2.png" style="width:100%">
+          <div class="text"><span>Design Stock and Flow Diagrams</span></div>
+        </div>
 
       <div class="mySlides fade">
         <div class="numbertext">2 / 6</div>
@@ -264,8 +98,31 @@
       <span class="dot" onclick="currentSlide(6)"></span>
     </div>
     <hr>
-  </div>
-  <script>
+  </div>  <script>
+    // Fade in sections on scroll
+    const observerOptions = {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target); // Stop observing once visible
+        }
+      });
+    }, observerOptions);
+
+    // Observe all fade-in sections
+    document.addEventListener('DOMContentLoaded', function() {
+      const sections = document.querySelectorAll('.fade-in-section');
+      sections.forEach(section => {
+        observer.observe(section);
+      });
+    });
+
     let slideIndex = 1;
     showSlides(slideIndex);
 
@@ -292,29 +149,32 @@
       slides[slideIndex - 1].style.display = "block";
       dots[slideIndex - 1].className += " active";
     }
-  </script>
-  <br></br>
+  </script>  <br></br>
   <div style="margin-top: 10vb"></div>
   <div class="tabContent" id="contact" style="padding-top: 10px"></div>
-  <p style="text-align: center; font-weight: bold; font-size: min(50px, 8vw)">Contact us</p>
-  <table style="line-height: 4vw; font-size: min(30px, 3vw);">
-    <tr style="background-color: #eee;">
-      <td><b>Karthik Vedula:</b><br>Lead Programmer</td>
-      <td><a href="mailto: karthik@vedula.me" target="_blank">karthik@vedula.me</a></td>
-    </tr>
-    <tr style="background-color: #eee">
-      <td><b>Aditya Patil:</b><br>Systems Analyst<br>and Lead Tester</td>
-      <td><a href="mailto: adi24.patil@gmail.com" target="_blank">adi24.patil@gmail.com</a></td>
-    </tr>
-    <tr style="background-color: #eee;">
-      <td><b>Sienna Simms:</b><br>Project Manager<br>and Lead Tester</td>
-      <td><a href="mailto: sienna.simms27@gmail.com" target="_blank">sienna.simms27@gmail.com </a></td>
-    </tr>
-    <tr style="background-color: #eee;">
-      <td><b>William Park:</b><br>Frontend Developer<br>and Maintenance</td>
-      <td><a href="mailto: smartynotchy@gmail.com" target="_blank">smartynotchy@gmail.com </a></td>
-    </tr>
-  </table>
+  <div class="fade-in-section">
+    <p style="text-align: center; font-weight: bold; font-size: min(50px, 8vw)">Contact us</p>
+  </div>
+  <div class="fade-in-section delay-1">
+    <table style="line-height: 4vw; font-size: min(30px, 3vw);">
+      <tr style="background-color: #eee;">
+        <td><b>Karthik Vedula:</b><br>Lead Programmer</td>
+        <td><a href="mailto: karthik@vedula.me" target="_blank">karthik@vedula.me</a></td>
+      </tr>
+      <tr style="background-color: #eee">
+        <td><b>Aditya Patil:</b><br>Systems Analyst<br>and Lead Tester</td>
+        <td><a href="mailto: adi24.patil@gmail.com" target="_blank">adi24.patil@gmail.com</a></td>
+      </tr>
+      <tr style="background-color: #eee;">
+        <td><b>Sienna Simms:</b><br>Project Manager<br>and Lead Tester</td>
+        <td><a href="mailto: sienna.simms27@gmail.com" target="_blank">sienna.simms27@gmail.com </a></td>
+      </tr>
+      <tr style="background-color: #eee;">
+        <td><b>William Park:</b><br>Frontend Developer<br>and Maintenance</td>
+        <td><a href="mailto: smartynotchy@gmail.com" target="_blank">smartynotchy@gmail.com </a></td>
+      </tr>
+    </table>
+  </div>
   </div>
 </body>
 

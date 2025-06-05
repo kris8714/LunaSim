@@ -18,6 +18,7 @@
   <!-- Style Sheets -->
   <link rel="stylesheet" href="simulation.css" id="lightThemeCSS">
   <link rel="stylesheet" href="simulation_dark.css" disabled="disabled" id="darkThemeCSS">
+  <link rel="stylesheet" href="toggle-switch.css">
 
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="icon" href="../img/lunaLogo.svg">
@@ -50,16 +51,8 @@
             <input type="file" id="load-actual-button" accept=".luna, .txt" hidden/>
             <button id="loadButton"><img src="../images/import.png" alt="Import">Load</button>
             <button id="exportButton"><img src="../images/export.png" alt="Export">Export</button>
-            <button id="switchThemeButton"><img src="../images/palette.png" alt="Theme">Switch Theme</button>
-            <div class="dropdown">
-              <button id="docsButton"><img src="../images/help.png" alt="Help">Help</button>
-              <div class="dropdown-content">
-                <a href="../docs/basics.html">Basics</a>
-                <a href="../docs/tutorials.html">Tutorials</a>
-                <a href="../docs/lessons.html">Lesson Plans</a>
-                <a href="../docs/api.html">API</a>
-              </div>
-            </div>
+            <button id="switchThemeButton"><img src="../images/moon-phase.png" alt="Theme">Switch Theme</button>
+            <a href="docs.html"><button id="docsButton"><img src="../images/question.png" alt="Help">Help</button></a>
             <button id="clearButton"><img src="../images/trash.png" alt="Clear Model">Clear</button>
           </div>
           <p id="saveStatus">Last Cloud Save: -<br>Last Export: -</p>
@@ -76,7 +69,7 @@
 
       <!-- Simulation Error Popup -->
       <div id="simErrorPopup">
-        <p id="simErrorPopupTitle"><b>Oh noes, Simulation Error! :(</b></p>
+        <p id="simErrorPopupTitle"><b>Simulation Error:(</b></p>
         <p id="simErrorPopupDesc">Placeholder Message</p>
         <button id="simErrorPopupDismiss">Dismiss</button>
       </div>
@@ -90,13 +83,21 @@
       </div>
       <!-- Content for the modal view -->
       <div class="tabContent" id="modalView">
-        <div class="tools">
-          <button data-keys="p" id="pointer_button" class="pointer_selected tool"><img src="../images/clicks.png"></button>
-          <button data-keys="s" id="stock_button" class="node_normal tool"><img src="../images/round.png"></button>
-          <button data-keys="c" id="cloud_button" class="node_normal tool"><img src="../images/cloud.png"></button>
-          <button data-keys="v" id="variable_button" class="node_normal tool"><img src="../images/rec.png"></button>
-          <button data-keys="f" id="flow_button" class="link_normal tool"><img src="../images/left-right.png"></button>
-          <button data-keys="i" id="influence_button" class="link_normal tool">Influence (I)</button>
+        <div class="tools">          
+          <button data-keys="p" id="pointer_button" class="pointer_selected tool">
+            <img src="../images/clicks.png">
+            <span>Pointer [P]</span>
+          </button>
+          <button data-keys="s" id="stock_button" class="node_normal tool"><img src="../images/round.png"><span class="tooltip">Stock (S)</span></button>
+          <button data-keys="c" id="cloud_button" class="node_normal tool"><img src="../images/cloud.png"><span class="tooltip">Cloud (C)</span></button>
+          <button data-keys="v" id="variable_button" class="node_normal tool"><img src="../images/rec.png"><span class="tooltip">Variable (V)</span></button>
+          <button data-keys="f" id="flow_button" class="link_normal tool"><img src="../images/left-right.png"><span class="tooltip">Flow (F)</span></button>
+          <button data-keys="i" id="influence_button" class="link_normal tool"><img src="../images/influence.png"><span class="tooltip">Influence (I)</span></button>
+          <div class="tools-divider"></div>          <button id="undo_button" class="util_normal tool"><i class="material-icons">undo</i><span class="tooltip">Undo</span></button>
+          <button id="redo_button" class="util_normal tool"><i class="material-icons">redo</i><span class="tooltip">Redo</span></button>
+          <button id="center_button" class="util_normal tool"><i class="material-icons">center_focus_strong</i><span class="tooltip">Center</span></button>
+          <button data-keys="d" id="drag_button" class="util_normal tool"><i class="material-icons">select_all</i><span class="tooltip">Select (D)</span></button>
+          <button id="image_button" class="util_normal tool"><i class="material-icons">image</i><span class="tooltip">Export as Image</span></button>
         </div>
         <div id="myDiagram">
           <canvas tabindex="0" width="598" height="498">This text is displayed if your browser does not support the Canvas HTML
@@ -108,7 +109,7 @@
           <table id="eqTable" class="eqTable">
             <tr>
               <th class="eqTableHeader">Type</th>
-              <th class="eqTableHeader">Name</th>
+              <th class="eqTableHeader" style="width: 30%">Name</th>
               <th class="eqTableHeader"style="width: 90%">Equation</th>
               <th class="eqTableHeader" id="nnUniHeader">NN/Uni?<span id="nnUniTooltip">Non-negative/Uniflow</span></th>
             </tr>
@@ -116,7 +117,6 @@
             </tbody>
           </table>
         </div>
-        <br>
       </div>
       </div>
       <!-- Content for the charts and tables -->
@@ -128,11 +128,36 @@
             <!-- Tabs added dynamically -->
           </div>
         </div>
-        <div id="display">
-          <div id="chart" style="width: 85%"></div>
-          <div id = "datatable">
-          </div>
+        <div id="display" style="display: flex; flex-direction: row; align-items: flex-start;">
+          <div id="chart" style="width: 100%"></div>
+          <div id="datatable"></div>
         </div>
+        <div id="simParams">
+            <p id="simParamsTitle"><b>Simulation Parameters</b></p>
+            <div id="startArea">
+              <p>Start Time</p>
+              <input class="simParamsInput" id="startTime" placeholder="Enter a number" value="0">
+            </div>
+            <div id="endArea">
+              <p>End Time</p>
+              <input class="simParamsInput" id="endTime" placeholder="Enter a number" value="10">
+            </div>
+            <div id="dtArea">
+              <p>Step</p>
+              <input class="simParamsInput" id="dt" placeholder="Enter a number" value="0.1">
+            </div>
+            <div id="typeArea">
+              <p>Integration</p>
+              <select class="simParamsInput" id="integrationMethod">
+                    <option value="rk4">Runge-Kutta 4</option>
+                    <option value="euler">Euler</option>
+                  </select>
+            </div>
+            <div id="highStepArea">
+              <input type="checkbox">
+              <p>Enable High Step Count Simulations (Not Recommended)</p>
+            </div>
+          </div>
       </div>
       <!-- The pop up to initialize the tables and charts -->
       <div id="popForm">
@@ -160,81 +185,24 @@
           <button id="closeNewTabPopup"><b>X</b></button>
         </form>
       </div>
-      
-      <!-- Equation editor -->
-      
-      <!-- Simulation parameters -->
-      <div id="simParams">
-        <p id="simParamsTitle"><b>Simulation Parameters</b></p>
-        <br>
-        <table id="simParamsTable">
-          <tr style="width: 100%">
-            <th class="simParamCol">Start Time</th>
-            <th class="simParamCol">End Time</th>
-            <th class="simParamCol">dt (Time Increment)</th>
-            <th class="simParamCol">Integration Method</th>
-          </tr>
-          <tr>
-            <th>
-              <input class="simParamsInput" id="startTime" placeholder="Enter a number" value="0">
-            </th>
-            <th>
-              <input class="simParamsInput" id="endTime" placeholder="Enter a number" value="10">
-            </th>
-            <th>
-              <input class="simParamsInput" id="dt" placeholder="Enter a number" value="0.1">
-            </th>
-            <th>
-              <select class="simParamsInput" id="integrationMethod">
-                <option value="rk4">Runge-Kutta 4</option>
-                <option value="euler">Euler</option>
-              </select>
-            </th>
-          </tr>
-        </table>
-
-        <table style="margin-left: 50px;">
-          <tr>
-            <th>
-              <input type="checkbox" id="simParamHighStepCount">
-            </th>
-            <th>
-              <p id="simParamHighStepCountDesc">Enable High Step-Count Simulations (Not Recommended)</p>
-            </th>
-          </tr>
-        </table>
-          
-          
-        </div>
-
-        <!--
-        <table id="modelConfigTable" class="modelConfigTable"
-          style="position: relative; top: 60px; font-size: min(18px, 2.8vw);">
-          <tr>
-            <th>Start Time</th>
-            <th><input id="startTime" style="width:100%; height:20px" value="0"></th>
-          </tr>
-          <tr>
-            <th>End Time</th>
-            <th><input id="endTime" style="width:100%; height:20px" value="10"></th>
-          </tr>
-          <tr>
-            <th>dt</th>
-            <th><input id="dt" style="width:100%; height:20px" value="0.1"></th>
-          </tr>
-          <tr>
-            <th>Integration Method</th>
-            <th><select id="integrationMethod" style="width:100%; height:20px">
-                <option value="rk4">Runge-Kutta 4</option>
-                <option value="euler">Euler</option>
-              </select></th>
-          </tr>
-        </table>-->
-      </div>
-      <br>
-      <br>
-      <br>
     </div>
+    <!-- Gray overlay for popups -->
+    <div id="grayEffectDiv" class="overlay"></div>
 </body>
+<script>
+const simErrorPopup = document.getElementById('simErrorPopup');
+const simErrorPopupDismiss = document.getElementById('simErrorPopupDismiss');
 
+function showSimErrorPopup() {
+  simErrorPopup.style.display = 'block';
+  document.body.classList.add('popup-open');
+}
+function hideSimErrorPopup() {
+  simErrorPopup.style.display = 'none';
+  document.body.classList.remove('popup-open');
+}
+// If you show the popup elsewhere, call showSimErrorPopup()
+simErrorPopupDismiss.addEventListener('click', hideSimErrorPopup);
+// Optionally, replace any other code that sets simErrorPopup.style.display = 'block' with showSimErrorPopup()
+</script>
 </html>

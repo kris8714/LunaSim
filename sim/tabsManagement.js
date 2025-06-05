@@ -128,25 +128,57 @@ function openForm(){
     showPopup("Create a model first.");
     return;
   }
-  addOptions(); // dynamically adds in the options
 
-  let form = document.getElementById("popForm");
+  // Reset any previous form state
+  let form = document.getElementById("tabConfig");
+  form.reset();
+  resetOptions();
+  
+  // Add new options
+  addOptions();
+
+  // Show form and overlay
+  document.getElementById("popForm").style.display = "block";
   document.getElementById("grayEffectDiv").style.display = "block";
-  form.style.display = "block"; // display form
+  
+  // Focus on the first radio button
+  document.getElementById("table").focus();
 }
 
 // Will validate and add tab data
 function submit(){
-  let inputs = document.getElementsByTagName('input');
-  for (let i = 0; i < inputs.length; i++) {
-    if (inputs.item(i).className == 'yAxisCheckbox') {
-      if (inputs.item(i).checked == true){
-        initializeTab(); // add data if valid
-        return false; // want to return false to disable default submission
-      }
+  // First check if a visualization type is selected
+  let typeSelected = false;
+  let form = document.forms["tabConfig"];
+  for (let radio of form["model_type"]) {
+    if (radio.checked) {
+      typeSelected = true;
+      break;
     }
   }
-  showPopup("Check at least one box."); // no alert if at least one is checked
+  if (!typeSelected) {
+    showPopup("Please select either Table or Chart.");
+    return false;
+  }
+
+  // Check if any Y-axis variables are selected
+  let hasYAxisSelection = false;
+  let inputs = document.getElementsByTagName('input');
+  for (let i = 0; i < inputs.length; i++) {
+    if (inputs.item(i).className == 'yAxisCheckbox' && inputs.item(i).checked) {
+      hasYAxisSelection = true;
+      break;
+    }
+  }
+  
+  if (!hasYAxisSelection) {
+    showPopup("Please select at least one variable for the Y-axis.");
+    return false;
+  }
+
+  // All validation passed, create the new tab
+  initializeTab();
+  return false;
 }
 
 // Resets the options so that it updates the options
@@ -164,33 +196,47 @@ function resetOptions(){
 
 // Enter objects into tabs data array
 function initializeTab() {
-  let form = document.forms["tabConfig"];
-  
-  // gets all y axis values
-  var y = [];
-  let inputs = document.getElementsByTagName('input');
-  for (let i = 0; i < inputs.length; i++) {
-    if (inputs.item(i).className == 'yAxisCheckbox') {
-      if (inputs.item(i).checked == true){
-        y.push(inputs.item(i).value);
+  try {
+    let form = document.forms["tabConfig"];
+    
+    // Get all selected y axis values
+    var y = [];
+    let inputs = document.getElementsByTagName('input');
+    for (let input of inputs) {
+      if (input.className == 'yAxisCheckbox' && input.checked) {
+        y.push(input.value);
       }
     }
-  }
 
-  var x; // gets the correct x-axis value
-  if(form["model_type"].value == "table" && form["xAxis"].value != "time"){ // alerts if x-axis was anything but time for tables
-    x = "time" // auto-corrects the answer
-    showPopup("The x-axis must always be time for tables. (corrected)");
-  }
-  else
-    x = form["xAxis"].value;
+    // Get the x-axis value with validation
+    let x = form["xAxis"].value;
+    if(form["model_type"].value == "table" && x != "time"){ 
+      x = "time"; // auto-corrects for tables
+      showPopup("The x-axis must always be time for tables. (corrected)");
+    }
 
-  var tab = new Graphic(form["model_type"].value, x, y); // initializes the Graphic object
-  tabs.push(tab); // add to end of array
-  document.getElementById("popForm").style.display = "none"; // hide form
-  document.getElementById("grayEffectDiv").style.display = "none";
-  form.reset(); // reset input
-  resetOptions(); // reset options
+    // Create and add the new tab
+    var tab = new Graphic(form["model_type"].value, x, y);
+    tabs.push(tab);
+
+    // Immediately configure the new tab
+    configTabs();
+    
+    // Auto-select the newly created tab
+    if (list.lastChild) {
+      list.lastChild.click();
+    }
+
+    // Clean up
+    document.getElementById("popForm").style.display = "none";
+    document.getElementById("grayEffectDiv").style.display = "none";
+    form.reset();
+    resetOptions();
+    
+  } catch (error) {
+    console.error("Error creating new tab:", error);
+    showPopup("Error creating new tab. Please try again.");
+  }
 }
 
 // Array listener

@@ -3,6 +3,7 @@ body {
   background: rgb(8, 0, 63);
   margin-left: 0px;
   margin-right: 0px;
+  height: 100vh;
   overflow: hidden;
 }
 
@@ -17,7 +18,7 @@ body {
 #logoImage {
   height: 40px;
   position: relative;
-  right: -10px;
+  right: -5px;
 }
 
 #model_name {
@@ -56,6 +57,7 @@ body {
   position: static;
   top: unset;
   left: unset;
+  align-items: center;
 }
 
 .action button {
@@ -151,15 +153,14 @@ body {
 
 #switchThemeButton {
   background-color: #414141;
-  color: #aaaaaa;
-  font-weight: bold;
+  color: #ffffff;
+  font-weight: lighter;
   width: 150px;
 }
 
 #switchThemeButton img {
   top:3px;
   left: 4px;
-  opacity: 70%;
 }
 
 #switchThemeButton:hover {
@@ -168,78 +169,38 @@ body {
 }
 
 #docsButton {
-  background-color: #9933ff;
-  color: rgb(233, 209, 255);
-  font-weight: bold;
-  width: 75px;
+  background-color: rgba(115, 34, 187, 0.9);
+  color: rgb(255, 255, 255);
+  font-weight: lighter;
+  width: 85px;
   transition: 0.3s;
 }
+
 #docsButton img {
   top: 3px;
   left: 4px;
-  filter: sepia(1) saturate(5) hue-rotate(185deg) brightness(1);
+
 }
 #docsButton:hover{
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-  transition: 0.3s;
-}
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  width: 160px;
-  background-color: #f9f9f9;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1001;
-}
-
-.dropdown-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-  text-align: left;
-  font-size: 14px;
-  transition: background-color 0.3s;
-}
-
-.dropdown-content a:hover {
-  background-color: #a77aff;
-  color: white;
-}
-
-.dropdown:hover .dropdown-content {
-  display: block;
-}
-
-.dropdown:hover #docsButton{
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
+  background-color: rgba(99, 10, 177, 0.9);
 }
 
 #clearButton {
-  background-color: #ff5050;
-  color: rgb(255, 225, 225);
-  font-weight: bold;
+  background-color: rgba(146, 49, 49, 0.9);
+  color: rgb(255, 255, 255);
+  font-weight: lighter;
   width: 90px;
 }
 
 #clearButton img{
   top: 3px;
   left: 4px;
-  filter: sepia(1) saturate(5) hue-rotate(200deg) brightness(1);
 }
 
 #clearButton:hover {
-  background-color: #b52626;
+  background-color: #8f0000;
   transition: 0.2s;
 }
-
 
 
 
@@ -300,7 +261,7 @@ body {
   height: 92vh;
   padding-bottom: 20px;
   margin-left: 0px;
-  margin-right: 0;
+  margin-right: 0px;
   overflow: hidden;
   z-index: 10;
   display: flex;
@@ -355,18 +316,18 @@ canvas {
   width: min(140px, 10%);
   height: 95.8%;
   position: relative;
-  left: 20px;
+  left: 15px;
   top: 15px;
   padding: 5px;
   margin-right: 5px;
   z-index: 3;
-  overflow: scroll;
+  overflow-y: hidden;
   overflow-x: hidden;
 }
 
 #addTab {
   width:100%;
-  height: 10%;
+  height: 15%;
   border: none;
   background-color: inherit;
   border-radius: 5px;
@@ -374,7 +335,9 @@ canvas {
 }
 
 #addTabButton {
-  font-size: 6vw; color: limegreen;
+  font-size: 6vb; 
+  color: limegreen;
+  position: center;
 }
 
 #tabsList {
@@ -386,14 +349,13 @@ canvas {
 }
 
 #display {
-  width: 85%;
+  width: 70%;
   height: 94.5%;
   border: 1px solid black;
   background-color: white;
   position: absolute;
-  right: 20px;
-  top: 15px;
-  display: flex;
+  left: min(180px, 12%);
+  bottom: 30px;
 }
 
 #popForm {
@@ -472,7 +434,9 @@ canvas {
 
 
 
-
+.eqTableHeader{
+  font-weight: normal;
+}
 
 
 
@@ -512,8 +476,7 @@ canvas {
 
 #nnUniHeader {
   position: relative;
-  display: inline-block;
-  border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+  display: inline-block; /* If you want dots under the hoverable text */
 }
 
 #nnUniTooltip {
@@ -568,27 +531,109 @@ canvas {
   position: relative;
   color: #ffffff;
   font-size: 25px;
-  margin-left: 20px;
-  top: 10px;
+  margin-left: 15px;
+  top: -10px;
 }
 
 
 #simParams {
-  background-color: #35829fff;
-  width: calc(65%);
-  height: 220px;
-  position: relative;
-  left: 25px;
-  top: 45px;
+  background-color: rgb(31, 0, 134);
+  width: 17.5%;
+  height: 94.5%;
+  position: absolute;
+  left: 81.5%;
+  right: 15px;
+  bottom: 30px;
   font-size: min(18px, 2.8vw);
   border-radius: 10px;
-  margin-bottom: 20px;
 }
 
-.simParamCol {
-  width: 25%;
+#startArea{
+  display: inline-flex;
   color: white;
-  font-size: min(20px, 2.8vw);
+  font-family: 'Mona Sans', sans-serif;
+}
+#startArea p{
+  font-size: 24px;
+  margin-left: 15px;
+  transform: translateY(-60%);
+}
+#startArea input{
+  position: relative;
+  font-family: 'Mona Sans', sans-serif;
+  width: 50%;
+  left: 3%;
+}
+
+#endArea{
+  display: inline-flex;
+  color: white;
+  font-family: 'Mona Sans', sans-serif;
+}
+#endArea p{
+  font-size: 24px;
+  margin-left: 15px;
+  transform: translateY(-60%);
+}
+#endArea input{
+  position: relative;
+  font-family: 'Mona Sans', sans-serif;
+  width: 54%;
+  left: 3%;
+}
+
+#dtArea{
+  display: inline-flex;
+  color: white;
+  font-family: 'Mona Sans', sans-serif;
+}
+#dtArea p{
+  font-size: 24px;
+  margin-left: 15px;
+  transform: translateY(-60%);
+}
+#dtArea input{
+  position: relative;
+  font-family: 'Mona Sans', sans-serif;
+  width: 50%;
+  left: 3%;
+}
+
+
+#typeArea{
+  display: inline-flex;
+  color: white;
+  font-family: 'Mona Sans', sans-serif;
+}
+
+#typeArea p{
+  font-size: 20px;
+  margin-left: 15px;
+  transform: translateY(-60%);
+}
+
+#typeArea select{
+  position: relative;
+  font-family: 'Mona Sans', sans-serif;
+  width: 60%;
+
+  left: 3%;
+}
+
+#highStepArea{
+  display: inline-flex;
+  color: white;
+  font-family: 'Mona Sans', sans-serif;
+}
+
+#highStepArea p{
+  font-size: 14px;
+  margin-left: 3%;
+  width: 80%;
+}
+
+#highStepArea input{
+  left: 10%;
 }
 
 .simParamsInput {
@@ -622,21 +667,23 @@ canvas {
 #simErrorPopup {
   position: fixed;
   width: 40%;
-  height: 60%;
-  border: 2px solid black;
+  height: 50%;
+  border: 2px solid rgb(146, 145, 255);
   border-radius: 15px;
-  background-color: white;
+  background-color: #4d4f5a;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -70%);
   z-index: 2000;
-
   display: none;
+  overflow: hidden;
+  /* Prevents page shift when popup appears */
+  pointer-events: auto;
 }
 
 #simErrorPopupTitle {
-  color: red;
-  font-size: 30px;
+  color: rgb(146, 145, 255);
+  font-size: 40px;
   padding-left: 20px;
 }
 
@@ -644,6 +691,7 @@ canvas {
   font-size: 20px;
   padding-left: 20px;
   padding-right: 20px;
+  color: white;
 }
 
 #simErrorPopupDismiss {
@@ -665,17 +713,6 @@ canvas {
   background-color: #dd0000;
   transition: 0.2s;
 }
-
-
-
-
-
-
-
-
-
-
-
 
 .tools {
   border-radius: 15px;
@@ -708,12 +745,29 @@ canvas {
   padding-top: 5.5px;
 }
 
-#pointer_button img{
-  height: 30px;
-  width: 30x;
+.tools button span{
+  opacity: 0;
+  transform: translateY(-50px);
 }
 
-#stock_button img{
+.tools button:hover span{
+  opacity: 1;
+  overflow: show;
+  transform: translateY(-50px);
+}
+
+
+#pointer_button img {
+  height: 30px;
+  width: 30px;
+}
+
+#select_button i {
+  font-size: 36px;
+  color: white;
+}
+
+#stock_button img {
   height: 33px;
   width: 33px;
   filter: invert(1);
@@ -737,6 +791,12 @@ canvas {
   filter: invert(1);
 }
 
+#influence_button img{
+  height: 40px;
+  width: 40px;
+  filter: invert(1);
+}
+
 
 button{
   overflow: hidden;
@@ -750,6 +810,50 @@ button{
 .tools button.active {
   background-color: #4319ff;
   transition: 0.3s;
+}
+
+.tools-divider {
+  height: 1px;
+  width: 50px;
+  background-color: rgba(255, 255, 255, 0.3);
+  margin: 10px auto;
+}
+
+/* Styles for utility buttons at bottom of toolbar */
+#undo_button i,
+#redo_button i,
+#center_button i {
+  font-size: 28px;
+  color: white;
+}
+
+/* Give some space above utility buttons */
+#undo_button {
+  margin-top: auto;
+}
+
+#drag_button i{
+  font-size: 28px;
+  color: white;
+}
+
+#image_button i{
+  font-size: 28px;
+  color: white;
+}
+
+.tools button.util_normal {
+  opacity: 1;
+}
+
+.tools button.util_normal:hover {
+  opacity: 1;
+  background-color: #4319ff;
+}
+
+.tools button.util_selected {
+  opacity: 1;
+  background-color: #4319ff;
 }
 
 
@@ -840,4 +944,45 @@ a:active { text-decoration: none;  color: black;}
 input[type=radio] {
   height: 20px;
   width: 20px;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1002;
+  display: none;
+}
+
+/* Tooltip styles for spans inside buttons */
+.tools button span {
+  transform-origin: center left;
+  position: absolute;
+  left: calc(100% + 5px); /* Position tooltip next to the button */
+  background: rgba(10, 0, 145, 0.9);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  white-space: nowrap;
+  font-size: 15px;
+  font-family: 'Mona Sans', sans-serif;
+  visibility: hidden; /* Hidden by default */
+  opacity: 0; /* Transparent by default */
+  transition: opacity 0.5s ease;
+  z-index: 10002; /* Ensure tooltips are above other elements */
+}
+
+.tools button:hover span {
+  transform: translateY(0px);
+  visibility: visible; /* Visible on hover */
+  opacity: 1; /* Fully opaque on hover */
+}
+
+.tools-divider{
+  height: 3px;
+  background: rgb(122, 92, 255);
+  border-radius: 5px;
 }
