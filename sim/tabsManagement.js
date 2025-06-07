@@ -264,20 +264,28 @@ function configTabs(){
   while (list.firstChild) { // removes all child elements
     list.removeChild(list.lastChild);
   }
-  
+  // Count chart/table indices for naming
+  let chartCount = 0;
+  let tableCount = 0;
   for(let j = 0; j < tabs.length; j++){
     const tab = document.createElement("div"); // Tabs are divs to allow button children
     tab.classList = "graphTabs";
-    
     // Create tab name span
     const tabName = document.createElement("span");
-    if(j == 0) 
+    if(j == 0) {
       tabName.textContent = "Default";  // name of default tab
-    else
-      tabName.textContent = "Tab " + j;  // Tab name based on index
-    
+    } else {
+      if (tabs[j].type === "chart") {
+        chartCount++;
+        tabName.textContent = `Chart ${chartCount}`;
+      } else if (tabs[j].type === "table") {
+        tableCount++;
+        tabName.textContent = `Table ${tableCount}`;
+      } else {
+        tabName.textContent = `Tab ${j}`;
+      }
+    }
     tab.appendChild(tabName);
-    
     // Add delete button after the name (if not the default tab)
     if(j != 0) {  // default tab is not deletable
       const delButton = document.createElement("button"); 
@@ -287,16 +295,15 @@ function configTabs(){
       delButton.setAttribute('aria-label', 'Close tab');
       tab.appendChild(delButton);
     }
-    
     list.appendChild(tab);
-    
     // Add delete button event listener (only for non-default tabs)
     if(j != 0) {
       const delButton = tab.querySelector('.graphTabsDelButton');
       delButton.addEventListener("click", function(event) {
         event.stopPropagation(); // Prevent tab click when clicking delete button
         let tabText = tab.firstChild.textContent;
-        let i = tabText === "Default" ? 0 : Number(tabText.charAt(4)); // gets the correct index
+        // Find correct index based on type and number
+        let i = j;
         tabs.splice(i, 1); // removes one value from i
         configTabs(); // reconfigure tabs
         // Switch to the previous tab or default tab
@@ -307,21 +314,52 @@ function configTabs(){
         }
       });
     }
-
     tab.addEventListener("click", function render() {
       if (data == null){ // ensures that the simulation has been run first
         showPopup("Run the simulation first.");
         return;
       }
-      var tabText = this.firstChild.textContent; // Get text from span element
-      var i = tabText === "Default" ? 0 : Number(tabText.charAt(4)); // gets the number
-      
-      var tabInfo = tabs[i];
+      // Find the correct tab index by matching tab name
+      let tabIndex = 0;
+      if (tabName.textContent === "Default") {
+        tabIndex = 0;
+      } else if (tabName.textContent.startsWith("Chart ")) {
+        // Find nth chart
+        let n = parseInt(tabName.textContent.replace("Chart ", ""));
+        let count = 0;
+        for (let k = 1; k < tabs.length; k++) {
+          if (tabs[k].type === "chart") {
+            count++;
+            if (count === n) { tabIndex = k; break; }
+          }
+        }
+      } else if (tabName.textContent.startsWith("Table ")) {
+        // Find nth table
+        let n = parseInt(tabName.textContent.replace("Table ", ""));
+        let count = 0;
+        for (let k = 1; k < tabs.length; k++) {
+          if (tabs[k].type === "table") {
+            count++;
+            if (count === n) { tabIndex = k; break; }
+          }
+        }
+      } else {
+        tabIndex = j;
+      }
+      var tabInfo = tabs[tabIndex];
       if (tabInfo.type == "chart") {
         if (PERFORMANCE_MODE == true)
           console.time('Chart Render Time'); // Measuring chart render time
         document.getElementById('chart').hidden = false;
         document.getElementById('datatable').hidden = true;
+        // Set chart title
+        let chartTitle = document.getElementById('chartTitle');
+        if (!chartTitle) {
+          chartTitle = document.createElement('h2');
+          chartTitle.id = 'chartTitle';
+          document.getElementById('chart').prepend(chartTitle);
+        }
+        chartTitle.textContent = tabName.textContent;
         var options = {
           series: [
           ],
@@ -450,6 +488,14 @@ function configTabs(){
         
           document.getElementById('chart').hidden = true;
           document.getElementById('datatable').hidden = false;
+          // Set table title
+          let tableTitle = document.getElementById('tableTitle');
+          if (!tableTitle) {
+            tableTitle = document.createElement('h2');
+            tableTitle.id = 'tableTitle';
+            document.getElementById('datatable').prepend(tableTitle);
+          }
+          tableTitle.textContent = tabName.textContent;
         
           var xValues = getAllValues(tabInfo.xAxis, data);
           if(xValues == null){ // deletes tab and sends alert when data is deleted

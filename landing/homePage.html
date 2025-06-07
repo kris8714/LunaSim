@@ -21,84 +21,88 @@
   <link rel="stylesheet" href="home.css">
 </head>
 
-<style>
-  
-</style>
-
-<body>  <div class="tabContent" id="home">
-    <div class="fade-in-section">
-      <p style="font-size: min(40px, 5vw); text-align: center; font-weight: bold;">Design and run powerful simulations,
-        all in your browser with...</p>
-    </div>
-    <div class="fade-in-section delay-1">
-      <p style="font-size: min(80px, 8vw); text-align: center; font-weight: bold; height: 5%"><img
-          src="../img/lunaLogo.svg" style="height: 1em; position: top; top: 10px; margin-right: 10px">LunaSim</p>
-    </div>
-    <div class="fade-in-section delay-2">
-      <button id="startButton" onclick="window.location.href='../sim/systemDynamics.html'">
-        Launch Now
-      </button>
-    </div>
-    <div class="fade-in-section delay-3">
-      <img src="../img/modelView.png" alt="Model view"
-        style="width: min(100%, 80vw); margin-left: calc((100% - min(100%, 80vw))/2);">
-    </div>
-    <hr>
-    <div class="fade-in-section">
-      <p style="font-size: min(40px, 5vw); text-align: center; font-weight: bold;">What LunaSim offers</p>
-    </div>    <div class="fade-in-section">
-      <div class="slideshow-container">
-        <div class="mySlides fade">
-          <div class="numbertext">1 / 6</div>
-          <img src="../img/modelView2.png" style="width:100%">
-          <div class="text"><span>Design Stock and Flow Diagrams</span></div>
+<body>
+  <div style="max-width:100%; margin: 0 auto; padding: 0 1.5rem; min-height: 100vh; display: flex; flex-direction: column; align-items: center;">
+    <div class="tabContent" id="home" style="width:100%; max-width:100%; margin:0 auto; padding:0;">
+      <div class="fade-in-section">
+        <p style="font-size: min(40px, 5vw); text-align: center; font-weight: bold; margin-bottom: 0.5em;">Design and run powerful simulations, all in your browser with...</p>
+      </div>
+      <div class="fade-in-section delay-1">
+        <p style="font-size: min(80px, 8vw); text-align: center; font-weight: bold; height: 5%; margin: 0 0 0.5em 0;"><img src="../img/lunaLogo.svg" style="height: 1em; position: relative; top: 10px; margin-right: 10px">LunaSim</p>
+      </div>
+      <div class="fade-in-section delay-2">
+        <button id="startButton" onclick="window.location.href='../sim/systemDynamics.html'">Launch Now</button>
+      </div>
+      <hr style="width:100%; max-width:100%;">
+      <div class="fade-in-section">
+        <p style="font-size: min(40px, 5vw); text-align: center; font-weight: bold; margin-bottom: 0.5em;">What LunaSim offers</p>
+      </div>
+      <div class="fade-in-section">
+        <div class="slideshow-container" style="max-width:1000px; margin:0 auto;">
+          <div class="mySlides fade">
+            <div class="numbertext">1 / 6</div>
+            <img src="../img/modelView2.png" style="width:100%">
+            <div class="text"><span>Design Stock and Flow Diagrams</span></div>
+          </div>
+          <div class="mySlides fade">
+            <div class="numbertext">2 / 6</div>
+            <img src="../img/GraphView2.png" style="width:100%">
+            <div class="text"><span>Visualize Data with Graphs...</span></div>
+          </div>
+          <div class="mySlides fade">
+            <div class="numbertext">3 / 6</div>
+            <img src="../img/TableView3.png" style="width:100%">
+            <div class="text"><span>...and Tables</span></div>
+          </div>
+          <div class="mySlides fade">
+            <div class="numbertext">4 / 6</div>
+            <img src="../img/Ghosting.png" style="width:100%">
+            <div class="text"><span>Ghosting included - just add a dollar sign!</span></div>
+          </div>
+          <div class="mySlides fade">
+            <div class="numbertext">5 / 6</div>
+            <img src="../img/EquationEditor.png" style="width:100%">
+            <div class="text"><span>Edit equations using JavaScript code.</span></div>
+          </div>
+          <div class="mySlides fade">
+            <div class="numbertext">6 / 6</div>
+            <img src="../img/enjoy.png" style="width:100%">
+            <div class="text"><span>Enjoy!</span></div>
+          </div>
+          <!-- Arrow Icons -->
+          <a class="prev" id="prevBtn" onclick="plusSlides(-1)"><img src="../images/arrowL.png" height="35px"></a>
+          <a class="next" id="nextBtn" onclick="plusSlides(1)"><img src="../images/arrowR.png" height="35px"></a>
         </div>
-
-      <div class="mySlides fade">
-        <div class="numbertext">2 / 6</div>
-        <img src="../img/GraphView2.png" style="width:100%">
-        <div class="text"><span>Visualize Data with Graphs...</span></div>
+        <div style="text-align:center; margin-top: 0.7em;">
+          <span class="dot" onclick="currentSlide(1)"></span>
+          <span class="dot" onclick="currentSlide(2)"></span>
+          <span class="dot" onclick="currentSlide(3)"></span>
+          <span class="dot" onclick="currentSlide(4)"></span>
+          <span class="dot" onclick="currentSlide(5)"></span>
+          <span class="dot" onclick="currentSlide(6)"></span>
+        </div>
       </div>
-
-      <div class="mySlides fade">
-        <div class="numbertext">3 / 6</div>
-        <img src="../img/TableView3.png" style="width:100%">
-        <div class="text"><span>...and Tables</span></div>
+      <hr style="width:100%;">
+      <div class="fade-in-section">
+        <p style="text-align: center; font-weight: bold; font-size: min(50px, 8vw); margin-bottom: 0.5em;">Support/Feedback</p>
       </div>
-
-      <div class="mySlides fade">
-        <div class="numbertext">4 / 6</div>
-        <img src="../img/Ghosting.png" style="width:100%">
-        <div class="text"><span>Ghosting included - just add a dollar sign!</span></div>
+      <div class="fade-in-section delay-1">
+        <table style="line-height:50px; font-size: min(30px, 3vw); width:100%; max-width:1500px; margin: auto; background:rgba(255,255,255,0.95); color:#232946; border-radius:14px; box-shadow:0 2px 12px rgba(44,62,80,0.07); overflow:hidden;">
+          <tr style="background-color: #eee;"><td><b>Karthik Vedula:</b><br>Lead Programmer</td><td><a href="mailto: karthik@vedula.me" target="_blank">karthik@vedula.me</a></td></tr>
+          <tr style="background-color: #eee;"><td><b>Aditya Patil:</b><br>Systems Analyst<br>and Lead Tester</td><td><a href="mailto: adi24.patil@gmail.com" target="_blank">adi24.patil@gmail.com</a></td></tr>
+          <tr style="background-color: #eee;"><td><b>Sienna Simms:</b><br>Project Manager<br>and Lead Tester</td><td><a href="mailto: sienna.simms27@gmail.com" target="_blank">sienna.simms27@gmail.com </a></td></tr>
+          <tr style="background-color: #eee;"><td><b>William Park:</b><br>Frontend Developer<br>and Maintenance</td><td><a href="mailto: smartynotchy@gmail.com" target="_blank">smartynotchy@gmail.com </a></td></tr>
+          <tr style="background-color: #eee;"><td><b>Krishan Maranchi:</b><br>Lead Programmer<br>and Lead Tester</td><td><a href="mailto: krishan.maranchi1@gmail.com" target="_blank">krishan.maranchi1@gmail.com</a></td></tr>
+          <tr style="background-color: #eee;"><td><b>Poorvi Desphande:</b><br>Systems Analyst</td><td><a href="mailto: Placeholder" target="_blank">Placeholder</a></td></tr>
+          <tr style="background-color: #eee;"><td><b>Veronica Mitin:</b><br>Lead Tester</td><td><a href="mailto: Placeholder" target="_blank">Placeholder </a></td></tr>
+          <tr style="background-color: #eee;"><td><b>Sajni Srinivasan:</b><br>Project Manager<br>and Documentation</td><td><a href="mailto: Placeholder" target="_blank">Placeholder</a></td></tr>
+        </table>
       </div>
-
-      <div class="mySlides fade">
-        <div class="numbertext">5 / 6</div>
-        <img src="../img/EquationEditor.png" style="width:100%">
-        <div class="text"><span>Edit equations using JavaScript code.</span></div>
-      </div>
-
-      <div class="mySlides fade">
-        <div class="numbertext">6 / 6</div>
-        <img src="../img/enjoy.png" style="width:100%">
-        <div class="text"><span>Enjoy!</span></div>
-      </div>
-      <!-- Arrow Icons -->
-      <a class="prev" id="prevBtn" onclick="plusSlides(-1)"><img src="../images/arrowL.png" height="35px"></a>
-      <a class="next" id="nextBtn" onclick="plusSlides(1)"><img src="../images/arrowR.png" height="35px"></a>
-
+      <br>
+      <br>
     </div>
-
-    <div style="text-align:center">
-      <span class="dot" onclick="currentSlide(1)"></span>
-      <span class="dot" onclick="currentSlide(2)"></span>
-      <span class="dot" onclick="currentSlide(3)"></span>
-      <span class="dot" onclick="currentSlide(4)"></span>
-      <span class="dot" onclick="currentSlide(5)"></span>
-      <span class="dot" onclick="currentSlide(6)"></span>
-    </div>
-    <hr>
-  </div>  <script>
+  </div>
+  <script>
     // Fade in sections on scroll
     const observerOptions = {
       root: null,
@@ -149,33 +153,7 @@
       slides[slideIndex - 1].style.display = "block";
       dots[slideIndex - 1].className += " active";
     }
-  </script>  <br></br>
-  <div style="margin-top: 10vb"></div>
-  <div class="tabContent" id="contact" style="padding-top: 10px"></div>
-  <div class="fade-in-section">
-    <p style="text-align: center; font-weight: bold; font-size: min(50px, 8vw)">Contact us</p>
-  </div>
-  <div class="fade-in-section delay-1">
-    <table style="line-height: 4vw; font-size: min(30px, 3vw);">
-      <tr style="background-color: #eee;">
-        <td><b>Karthik Vedula:</b><br>Lead Programmer</td>
-        <td><a href="mailto: karthik@vedula.me" target="_blank">karthik@vedula.me</a></td>
-      </tr>
-      <tr style="background-color: #eee">
-        <td><b>Aditya Patil:</b><br>Systems Analyst<br>and Lead Tester</td>
-        <td><a href="mailto: adi24.patil@gmail.com" target="_blank">adi24.patil@gmail.com</a></td>
-      </tr>
-      <tr style="background-color: #eee;">
-        <td><b>Sienna Simms:</b><br>Project Manager<br>and Lead Tester</td>
-        <td><a href="mailto: sienna.simms27@gmail.com" target="_blank">sienna.simms27@gmail.com </a></td>
-      </tr>
-      <tr style="background-color: #eee;">
-        <td><b>William Park:</b><br>Frontend Developer<br>and Maintenance</td>
-        <td><a href="mailto: smartynotchy@gmail.com" target="_blank">smartynotchy@gmail.com </a></td>
-      </tr>
-    </table>
-  </div>
-  </div>
+  </script>
 </body>
 
 </html>

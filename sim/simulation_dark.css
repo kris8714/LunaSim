@@ -1,6 +1,6 @@
 body {
   font-family: 'Mona Sans', sans-serif;
-  background: rgb(40, 40, 40);
+  background: rgb(31, 31, 31);
   margin-left: 0px;
   margin-right: 0px;
   height: 100vh;
@@ -13,12 +13,13 @@ body {
   width: 75%;
   height: 40px;
   float: right;
+  justify-content: flex-end; /* Add this line to align content to the right */
 }
 
 #logoImage {
   height: 40px;
   position: relative;
-  right: -5px;
+  right: 2px;
 }
 
 #model_name {
@@ -37,15 +38,16 @@ body {
   top: 5px;
   margin-right: 5px;
   color: white;
-  background-color: rgb(80, 80, 80);
+  background-color: rgb(66, 66, 66);
 }
 
 #saveStatus {
   margin-right: 10px;
+  margin-left: 0%;
   position: relative;
-  font-weight: bold;
+  font-weight: lighter;
   font-size: 13px;
-  color: #b0b0b0;
+  color: #b5b5b5;
   text-align: right;
   float: right;
   width: 250px;
@@ -114,7 +116,7 @@ body {
 }
 
 #loadButton {
-  background-color: #3392b5;
+  background-color: #6f6f6f;
   color: rgb(255, 255, 255);
   width: 100px;
 }
@@ -128,12 +130,12 @@ body {
 }
 
 #loadButton:hover {
-  background-color: #157091;
+  background-color: #3c3c3c;
   transition: 0.2s;
 }
 
 #exportButton {
-  background-color: #3392b5;
+  background-color: #6f6f6f;
   color: rgb(255, 255, 255);
   width: 100px;
 }
@@ -147,24 +149,7 @@ body {
 } 
 
 #exportButton:hover {
-  background-color: #157091;
-  transition: 0.2s;
-}
-
-#switchThemeButton {
-  background-color: #414141;
-  color: #ffffff;
-  font-weight: lighter;
-  width: 150px;
-}
-
-#switchThemeButton img {
-  top:3px;
-  left: 4px;
-}
-
-#switchThemeButton:hover {
-  background-color: #1e1e1e;
+  background-color: #3c3c3c;
   transition: 0.2s;
 }
 
@@ -230,7 +215,7 @@ body {
 }
 
 .webTabs button {
-  background: rgb(110, 110, 110); /* fallback for inactive */
+  background: rgb(84, 84, 84); /* fallback for inactive */
   height: 100%;
   border: none;
   padding: 5px 12px;
@@ -248,14 +233,14 @@ body {
 }
 
 .webTabs button:hover {
-  background: rgb(80, 80, 80);
+  background: rgb(116, 116, 116);
   color: white;
   transition: background 0.25s, color 0.25s;
   border-bottom: none;
 }
 
 .tabContent {
-  background: linear-gradient(rgb(80, 80, 80), rgb(60, 60, 60) );
+  background: linear-gradient(rgb(116, 116, 116), rgb(0, 0, 0) );
   position: relative;
   width: calc(100%);
   height: 92vh;
@@ -270,7 +255,7 @@ body {
 
 .webTabs button.active {
   transform: translateY(0.5px);
-  background: rgb(80, 80, 80);
+  background: rgb(120, 120, 120);
   color: #ffffff;
   z-index: 100;
   margin-left: 0px;
@@ -283,13 +268,14 @@ body {
 
 
 #myDiagram {
-  width: calc(57.5%);
-  height: calc(100% - 30px);
+  width: calc(62.5%);
+  box-shadow: 0 4px 20px rgb(0, 0, 0);
+  height: calc(100% - 120px);
   border: 1px solid black;
   background-color: white;
-  left: 95px;
+  left: 10px;
   position: absolute;
-  top: 15px;
+  top: 105px;
   border-radius: 15px;
   outline: none !important; /* Prevents focus highlighting */
   -webkit-tap-highlight-color: transparent; /* Prevents tap highlight on mobile */
@@ -361,7 +347,7 @@ canvas {
 #display {
   width: 80vw;
   height: 85vh;
-  border-radius: 5px;
+  border-radius: 15px;
   border: 1px solid black;
   background-color: white;
   position: absolute;
@@ -372,22 +358,28 @@ canvas {
 #popForm {
   position: fixed;
   width: min(600px, 90vw);
-  max-height: 85vh;
+  max-height: 95vh; /* Increase max-height for more space */
+  min-height: 300px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1003;
-  background: linear-gradient(135deg, rgb(105, 84, 221), rgb(164, 149, 249));
+  background: linear-gradient(135deg, rgb(64, 64, 64), rgb(33, 33, 33));
   border-radius: 12px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  border: 2px solid rgb(105, 84, 221);
+  border: 2px solid rgb(0, 0, 0);
   display: none;
-  overflow: hidden;
+  overflow-y: auto; /* Ensure vertical scroll if needed */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+
+#popForm::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
 }
 
 /* Popup header styling */
 .popup-header {
-  background: linear-gradient(135deg, rgb(105, 84, 221), rgb(164, 149, 249));
   color: white;
   padding: 20px 30px;
   display: flex;
@@ -398,35 +390,24 @@ canvas {
 
 .popup-header h2 {
   margin: 0;
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 26px;
+  font-weight: 100;
 }
 
 .radio-group {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-  margin-bottom: 15px;
+  display: inline-flex;
 }
 
 .radio-group input[type="radio"] {
-  margin-right: 8px;
-  transform: scale(1.2);
+  margin-right: 1px;
 }
 
 .radio-group label {
-  display: flex;
-  align-items: center;
-  margin-right: 0;
   cursor: pointer;
   font-size: 16px;
-  color: white;
-  transition: color 0.3s ease;
+  color: rgb(255, 0, 0);
 }
 
-.radio-group label:hover {
-  color: #cccccc;
-}
 
 #closeNewTabPopup {
   width: 40px;
@@ -434,7 +415,7 @@ canvas {
   color: white;
   font-size: 24px;
   font-weight: normal;
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(59, 23, 192, 0.2);
   border-radius: 50%;
   border: none;
   cursor: pointer;
@@ -442,19 +423,20 @@ canvas {
   display: flex;
   align-items: center;
   justify-content: center;
-  position: static;
 }
 
 #tabConfig {
   padding: 30px;
   font-size: 16px;
-  max-height: 80vh;
-  overflow-y: auto;
+  max-height: none; /* Remove max-height so content can grow */
+  overflow-y: visible; /* Let parent handle scrolling */
   color: white;
 }
 
 #tabConfig > div {
   margin-bottom: 25px;
+  overflow-y: scroll;
+  scrollbar-width: none;
 }
 
 #tabConfig p {
@@ -478,7 +460,7 @@ canvas {
 }
 
 #tabConfig label:hover {
-  color: #ffeb3b;
+  color: #3ba7ff;
 }
 
 #tabConfig select {
@@ -500,7 +482,7 @@ canvas {
 
 #tabConfig select:focus {
   outline: none;
-  border-color: #ffeb3b;
+  border-color: #3ba7ff;
   box-shadow: 0 0 0 3px rgba(255, 235, 59, 0.2);
 }
 
@@ -557,29 +539,34 @@ canvas {
 
 #submitModel {
   margin-top: 30px;
-  margin-bottom: 20px;
+  margin-bottom: 0;
   width: 100%;
   height: 50px;
-  background-color: #ffeb3b;
+  background-color: #3ba7ff;
   color: #333;
   font-size: 16px;
   font-weight: 600;
+  font-family: 'Mona Sans', sans-serif;
   border-radius: 8px;
   border: none;
   cursor: pointer;
   transition: all 0.2s ease;
+  position: static; /* Not sticky/fixed */
+  margin-top: 5px;
+  margin-bottom: 0;
+  width: 100%;
 }
 
 #submitModel:hover {
-  background-color: #fdd835;
+  background-color: #3ba7ff;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(255, 235, 59, 0.4);
+  box-shadow: 0 4px 12px rgba(59, 160, 255, 0.4);
 }
 
 #submitModel:active {
-  background-color: #f9a825;
+  background-color: #3ba7ff;
   transform: translateY(0);
-  box-shadow: 0 2px 6px rgba(255, 235, 59, 0.4);
+  box-shadow: 0 2px 6px rgba(59, 137, 255, 0.4);
 }
 
 #closeNewTabPopup {
@@ -639,7 +626,8 @@ canvas {
 
 
 #eqEditor {
-  background-color: rgb(60, 60, 60);
+  background-color: rgb(38, 38, 38);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 1);
   width: calc(37% - 30px);
   position: absolute;
   right: 15px;
@@ -662,6 +650,11 @@ canvas {
   top: -6px;
   font-size: 16px;
   border-radius: 10px;
+}
+
+#eqTableDiv input{
+  background: rgba(0, 0, 0, 0.2);
+  color: white;
 }
 
 
@@ -709,17 +702,17 @@ canvas {
 /* Apply colored borders in both regular and expanded views */
 .eqStockBox .eqTableInputBox,
 #expandedEqTableDiv .eqStockBox .eqTableInputBox {
-  border: 2px solid rgb(105, 217, 255);
+  border: 1px solid rgb(42, 148, 184);
 }
 
 .eqFlowBox .eqTableInputBox,
 #expandedEqTableDiv .eqFlowBox .eqTableInputBox {
-  border: 2px solid rgb(91, 88, 244);
+  border: 1px solid rgb(47, 45, 193);
 }
 
 .eqVariableBox .eqTableInputBox,
 #expandedEqTableDiv .eqVariableBox .eqTableInputBox {
-  border: 2px solid rgb(88, 244, 156);
+  border: 1px solid rgb(30, 158, 85);
 }
 
 
@@ -732,13 +725,13 @@ canvas {
 
 
 #simParams {
-  background: linear-gradient(135deg, rgb(50, 50, 50), rgb(70, 70, 70));
+  background: linear-gradient(135deg, rgb(115, 115, 115), rgb(54, 54, 54));
   width: 16%;
-  height: 89.5%;
+  height: calc(95% - 85px);
   position: absolute;
   left: 81.5%;
   right: 15px;
-  top: 15px;
+  top: 50px;
   bottom: 30px;
   font-size: min(18px, 2.8vw);
   border-radius: 15px;
@@ -787,13 +780,13 @@ canvas {
 .param-group input:focus,
 .param-group select:focus {
   outline: none;
-  border-color: #ffeb3b;
-  box-shadow: 0 0 0 2px rgba(255, 235, 59, 0.2);
+  border-color: #3ba7ff;
+  box-shadow: 0 0 0 2px rgba(59, 163, 255, 0.2);
 }
 
 #highStepArea {
-  background: rgba(255, 193, 7, 0.2);
-  border: 1px solid rgba(255, 193, 7, 0.5);
+  background: rgba(7, 123, 255, 0.2);
+  border: 1px solid rgba(7, 106, 255, 0.5);
   padding: 12px;
   border-radius: 8px;
   margin-top: 15px;
@@ -803,7 +796,7 @@ canvas {
 #highStepArea p {
   font-size: 12px;
   margin-left: 8px;
-  color: #ffeb3b;
+  color: #3ba7ff;
   font-weight: 500;
   line-height: 1.3;
 }
@@ -828,8 +821,8 @@ canvas {
 
 .simParamsInput:focus {
   outline: none;
-  border-color: #ffeb3b;
-  box-shadow: 0 0 0 2px rgba(255, 235, 59, 0.2);
+  border-color: #3ba7ff;
+  box-shadow: 0 0 0 2px rgba(59, 114, 255, 0.2);
 }
 
 .simParamsInputError {
@@ -837,7 +830,7 @@ canvas {
 }
 
 .simParamsInputWarning {
-  border: 3px solid goldenrod;
+  border: 3px solid rgb(32, 57, 218);
 }
 
 #simParamsTable {
@@ -848,14 +841,14 @@ canvas {
 }
 
 #simParamHighStepCountDesc {
-  color: yellow;
+  color: rgb(0, 30, 255);
 }
 
 #simErrorPopup {
   position: fixed;
   width: 40%;
   height: 50%;
-  border: 2px solid rgb(146, 145, 255);
+  border: 2px solid rgb(60, 60, 60);
   border-radius: 15px;
   background-color: #4d4f5a;
   top: 50%;
@@ -869,7 +862,7 @@ canvas {
 }
 
 #simErrorPopupTitle {
-  color: rgb(146, 145, 255);
+  color: rgb(255, 73, 73);
   font-size: 40px;
   padding-left: 20px;
 }
@@ -894,6 +887,7 @@ canvas {
   border: none;
   border-radius: 15px;
   transition: 0.2s;
+  font-family: 'Mona Sans', sans-serif;
 }
 
 #simErrorPopupDismiss:hover {
@@ -903,16 +897,21 @@ canvas {
 
 .tools {
   border-radius: 15px;
-  background: rgb(60, 60, 60);
-  width: 75px;
-  height: calc(100% - 30px);
+  background: rgb(62, 62, 62);
+  width: calc(61.5%);
+  height: 75px;
   position: absolute;
   left: 10px;
   top: 15px;
   border: none;
   z-index: 3;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 10px;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .tools button {
@@ -990,20 +989,21 @@ button{
 }
 
 .tools button:hover {
-  background-color: rgb(90, 90, 90);
+  background-color: #515151;
   transition: 0.3s;
 }
 
 .tools button.active {
-  background-color: rgb(90, 90, 90);
+  background-color: #515151;
   transition: 0.3s;
 }
 
 .tools-divider {
-  height: 1px;
+  transform: rotate(90deg);
   width: 50px;
+  height: 50px;
   background-color: rgba(255, 255, 255, 0.3);
-  margin: 10px auto;
+  margin: 0 10px;
 }
 
 /* Styles for utility buttons at bottom of toolbar */
@@ -1014,10 +1014,7 @@ button{
   color: white;
 }
 
-/* Give some space above utility buttons */
-#undo_button {
-  margin-top: auto;
-}
+
 
 #drag_button i{
   font-size: 28px;
@@ -1029,18 +1026,32 @@ button{
   color: white;
 }
 
+#switch_button{
+  font-size: 28px;
+  color: white;
+  opacity: 1;
+}
+#switch_button:hover{
+  background-color: #515151;
+  transition: 0.3s;
+}
+#switch_button i{
+  font-size: 28px;
+  color: white;
+}
+
 .tools button.util_normal {
   opacity: 1;
 }
 
 .tools button.util_normal:hover {
   opacity: 1;
-  background-color: rgb(90, 90, 90);
+  background-color: #515151;
 }
 
 .tools button.util_selected {
   opacity: 1;
-  background-color: rgb(90, 90, 90);
+  background-color: #515151;
 }
 
 
@@ -1123,11 +1134,11 @@ a:active { text-decoration: none;  color: black;}
 }
 
 .graphTabsInactive {
-  background-color: rgb(100, 100, 100);
+  background-color: rgb(104, 104, 104);
 }
 
 .graphTabsActive {
-  background-color: rgb(70, 70, 70);
+  background-color: rgb(44, 44, 44);
 }
 
 .graphTabsDelButton {
@@ -1167,10 +1178,12 @@ input[type=radio] {
 
 /* Tooltip styles for spans inside buttons */
 .tools button span {
-  transform-origin: center left;
+  transform-origin: center top;
   position: absolute;
-  left: calc(100% + 5px); /* Position tooltip next to the button */
-  background: rgba(60, 60, 60, 0.9);
+  top: calc(100% + 5px); /* Position tooltip below the button */
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(10, 0, 145, 0.9);
   color: white;
   padding: 5px 10px;
   border-radius: 5px;
@@ -1191,7 +1204,7 @@ input[type=radio] {
 
 .tools-divider{
   height: 3px;
-  background: rgb(120, 120, 120);
+  background: rgb(27, 27, 27);
   border-radius: 5px;
 }
 
@@ -1215,7 +1228,7 @@ input[type=radio] {
   position: absolute;
   right: 6px;
   top: 7px;
-  background-color: rgb(90, 90, 90); 
+  background-color: #1a1a1a; 
   border-radius: 5px;
   border: transparent;
   z-index: 10000;
@@ -1227,7 +1240,7 @@ input[type=radio] {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: rgb(50, 50, 50);
+  background-color: rgb(40, 40, 40);
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0,0,0,1);
@@ -1240,12 +1253,13 @@ input[type=radio] {
 
 #expandedEqEditorPopup input[type="text"] {
   width: 90px;
+  height: 35px;
   padding: 10px;
   margin: 5px 0;
   box-sizing: border-box;
   font-size: 16px;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 10px;
 }
 
 #expandedEqEditorPopup .popup-header {
@@ -1253,6 +1267,7 @@ input[type=radio] {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  font-size: 30px;
 }
 
 #expandedEqEditorPopup .dropdown{
@@ -1271,7 +1286,7 @@ input[type=radio] {
 }
 
 #expandedEqEditorPopup .popup-close:hover {
-  background-color: rgb(90, 90, 90);
+  background-color: #232323;
 }
 
 #expandedEqTableDiv table {
@@ -1280,6 +1295,8 @@ input[type=radio] {
 
 #expandedEqTableDiv .eqTable input[type="text"] {
   width: 100%;
+  background: rgba(0, 0, 0, 0.1);
+  color: rgb(241, 241, 241);
   padding: 8px;
   margin: 2px 0;
 }
@@ -1293,7 +1310,7 @@ input[type=radio] {
   position: absolute;
   z-index: 100000000;
   background: #fff;
-  border: 1px solid #999999;
+  border: 1px solid #3a3a3a;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   max-height: 200px;
   overflow-y: auto;
@@ -1306,4 +1323,10 @@ input[type=radio] {
 
 #expandedEqEditorPopup #math-autocomplete div:hover {
   background-color: #f0f0f0;
+}
+
+#math-autocomplete{
+  background: black;
+  border: black;
+  color: black;
 }

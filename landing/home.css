@@ -1,5 +1,7 @@
 html {
   min-height: 100%;
+  overflow: scroll;
+  scrollbar-width: none;
 }
 
 body {
@@ -10,6 +12,7 @@ body {
   margin: 0;
   background-attachment: fixed;
   background-repeat: no-repeat;
+  
 }
 
 .tablinks{
@@ -73,6 +76,8 @@ a:active
   height: 50px; 
   border-radius: 20px; 
   margin-left: calc((100% - min(360px, 40vw))/2); 
+  margin-bottom: 20px;
+  margin-top: px;
   font-size: min(30px, 4vw);
   color: white;
   transition: color 0.2s;
@@ -99,7 +104,8 @@ a:active
 }
 
 .mySlides {
-  display: none
+  display: none;
+  width: 100%;
 }
 
 
@@ -119,8 +125,9 @@ a:active
   width: auto;
   padding: 16px;
   margin-top: -22px;
-  color: rgb(43, 43, 48);
-  font-weight: bold;
+  color: rgb(255, 255, 255);
+  filter: invert(1);
+    font-weight: bold;
   font-size: 30px;
   transition: 0.1s;
   user-select: none;
@@ -128,13 +135,13 @@ a:active
 
 /* Position the "next button" to the right */
 .next {
-  right: -50px;
+  right: -75px;
 }
 
 /* Position the "prev button" to the left */
 
 .prev {
-  left: -50px;
+  left: -75px;
 }
 
 /* On hover, move arrows slightly downward*/
@@ -152,7 +159,7 @@ a:active
   background-color: rgba(255, 255, 255, 0.8);
   position: absolute;
   bottom: 8px;
-  width: 100%;
+  width: 75%;
   text-align: center;
 }
 
@@ -257,6 +264,7 @@ td {
   transform: translateY(0);
   visibility: visible;
 }
+
 
 /* Base delay for staggered animations */
 .delay-1 { transition-delay: 0.2s; }

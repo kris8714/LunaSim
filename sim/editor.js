@@ -212,13 +212,13 @@ function init() {
     myDiagram.model = go.Model.fromJson("{ \"class\": \"GraphLinksModel\", \"linkLabelKeysProperty\": \"labelKeys\", \"nodeDataArray\": [],\"linkDataArray\": [] }"); // default if no model is loaded
 }
 
-function buildTemplates() {
-    // COLORS (Switches depending on theme)
+function buildTemplates() {    // COLORS (Switches depending on theme)
     var fillColor = "#f0f0f0";
     var textColor = "black";
-    if (sessionStorage.getItem("darkMode") == "true") {
+    let currentTheme = sessionStorage.getItem("currentTheme") || 'light';
+    if (currentTheme === 'dark') {
         fillColor = "#888888";
-        textColor = "white";
+        textColor = "black";
     }
 
     // Since 2.2 you can also author concise templates with method chaining instead of GraphObject.make
@@ -925,38 +925,82 @@ function loadModel(evt) {
 }
 
 // Themes
-function switch_theme(orig) {
-    var dark = document.getElementById("darkThemeCSS");
-    if (dark.disabled) {
-        dark.disabled = false;
-        sessionStorage.setItem("darkMode", true);
-    } else {
-        dark.disabled = true;
-        sessionStorage.setItem("darkMode", false);
+function setTheme(themeName) {
+    const themes = ['light', 'dark', 'classic', 'forest'];
+    const themeCSS = {
+        light: document.getElementById("lightThemeCSS"),
+        dark: document.getElementById("darkThemeCSS"),
+        classic: document.getElementById("classicThemeCSS"),
+        forest: document.getElementById("forestThemeCSS")
+    };
+    
+    // Validate theme name
+    if (!themes.includes(themeName)) {
+        themeName = 'light'; // fallback to default
     }
-
-    if (!orig) {
-        var popupNotif = document.getElementById("popupNotif");
-        var popupNotifText = document.getElementById("popupNotifText");
-        popupNotifText.innerHTML = "Refresh to apply all theme changes";
-        popupNotif.style.visibility = "visible";
+    
+    // Disable all themes
+    Object.values(themeCSS).forEach(css => {
+        if (css) css.disabled = true;
+    });
+    
+    // Enable the specified theme
+    if (themeCSS[themeName]) {
+        themeCSS[themeName].disabled = false;
     }
+    
+    // Update sessionStorage
+    sessionStorage.setItem("currentTheme", themeName);
+    
+    // Keep legacy darkMode for backward compatibility
+    sessionStorage.setItem("darkMode", themeName === 'dark');
 }
 
-document.getElementById("switchThemeButton").addEventListener("click", function() { switch_theme(false) });
+function switch_theme(orig) {
+    const themes = ['light', 'dark', 'classic', 'forest'];
+    
+    // Get current theme from sessionStorage, default to 'light'
+    let currentTheme = sessionStorage.getItem("currentTheme") || 'light';
+    
+    // Find next theme in cycle
+    let currentIndex = themes.indexOf(currentTheme);
+    let nextIndex = (currentIndex + 1) % themes.length;
+    let nextTheme = themes[nextIndex];
+    
+    // Use setTheme to apply the new theme
+    setTheme(nextTheme);
+
+    // Removed annoying popup notification when switching themes
+    // if (!orig) {
+    //     var popupNotif = document.getElementById("popupNotif");
+    //     var popupNotifText = document.getElementById("popupNotifText");
+    //     popupNotifText.innerHTML = `Switched to ${nextTheme.charAt(0).toUpperCase() + nextTheme.slice(1)} theme - Refresh to apply all changes`;
+    //     popupNotif.style.visibility = "visible";
+    // }
+}
+
+document.getElementById("switch_button").addEventListener("click", function() { switch_theme(false) });
 document.getElementById("popupNotifClose").addEventListener("click", function() {
     popupNotif.style.visibility = "hidden";
 });
 
 // Retrieves session storage data when loaded
-window.onload = function(){
-  if(sessionStorage.modelData){
+window.onload = function(){  if(sessionStorage.modelData){
     myDiagram.model = go.Model.fromJson(sessionStorage.modelData);
     updateTable(true);
     loadTableToDiagram();
   }
-  if (sessionStorage.getItem("darkMode") == "true") {
-    switch_theme(true);
+    // Initialize theme on page load
+  let savedTheme = sessionStorage.getItem("currentTheme");
+  if (savedTheme) {
+    // Directly set the saved theme
+    setTheme(savedTheme);
+  } else if (sessionStorage.getItem("darkMode") == "true") {
+    // Legacy support for old darkMode setting
+    setTheme('dark');
+  } else {
+    // Default to light theme
+    setTheme('light');
   }
 }
 
@@ -1047,9 +1091,18 @@ document.getElementById("redo_button").addEventListener("click", function() {
 });
 
 document.getElementById("center_button").addEventListener("click", function() {
+    // Use zoomToFit to fit all parts, then center the viewport on the diagram bounds
     myDiagram.scale = 1.0;
-    myDiagram.commandHandler.scrollToPart(myDiagram.findNodeForKey(myDiagram.model.nodeDataArray[0]?.key));
-    myDiagram.commandHandler.zoomToFit();
+    myDiagram.zoomToFit();
+    // Center the viewport on the diagram bounds
+    const bounds = myDiagram.documentBounds;
+    const view = myDiagram.viewportBounds;
+    if (!bounds.isEmpty()) {
+        // Calculate the center point of the diagram bounds
+        const center = bounds.center;
+        // Set position so that the center of the diagram is at the center of the viewport
+        myDiagram.position = new go.Point(center.x - view.width / 2, center.y - view.height / 2);
+    }
 });
 
 // Return to normal mode after using drag tool
@@ -1060,6 +1113,7 @@ document.addEventListener("mouseup", function() {
         document.getElementById("pointer_button").click();
     }
 });
+
 
 // Set initial mode as pointer (for UI shading)
 document.getElementById("pointer_button").click();

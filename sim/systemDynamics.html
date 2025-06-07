@@ -14,16 +14,28 @@
         mvp.setAttribute('content', 'minimum-scale=1,width=600');
       }
     }
-  </script>
-  <!-- Style Sheets -->
-  <link rel="stylesheet" href="simulation_classic.css" id="lightThemeCSS">
+  </script>  <!-- Style Sheets -->
+  <link rel="stylesheet" href="simulation.css" id="lightThemeCSS">
   <link rel="stylesheet" href="simulation_dark.css" disabled="disabled" id="darkThemeCSS">
+  <link rel="stylesheet" href="simulation_classic.css" disabled="disabled" id="classicThemeCSS">
+  <link rel="stylesheet" href="simulation_forest.css" disabled="disabled" id="forestThemeCSS">
   <link rel="stylesheet" href="toggle-switch.css">
 
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="icon" href="../img/lunaLogo.svg">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+  <style>
+    /* Force ApexCharts text and tooltips to always be black */
+    .apexcharts-tooltip, .apexcharts-tooltip * {
+      color: #232323 !important;
+      background: #fff !important;
+    }
+    .apexcharts-text, .apexcharts-xaxis-label, .apexcharts-yaxis-label, .apexcharts-legend-text {
+      fill: #232323 !important;
+      color: #232323 !important;
+    }
+  </style>
 </head>
 
 <body>
@@ -51,7 +63,7 @@
             <input type="file" id="load-actual-button" accept=".luna, .txt" hidden/>
             <button id="loadButton"><img src="../images/import.png" alt="Import">Load</button>
             <button id="exportButton"><img src="../images/export.png" alt="Export">Export</button>
-            <button id="switchThemeButton"><img src="../images/moon-phase.png" alt="Theme">Switch Theme</button>
+            
             <a href="docs.html"><button id="docsButton"><img src="../images/question.png" alt="Help">Help</button></a>
             <button id="clearButton"><img src="../images/trash.png" alt="Clear Model">Clear</button>
           </div>
@@ -80,8 +92,7 @@
           <button class="tablinks" id="defaultOpen">Model View</button>
           <button class="tablinks" id="secondaryOpen">Charts/Tables</button>
         </div>
-      </div>
-      <!-- Content for the modal view -->
+      </div>      <!-- Content for the modal view -->
       <div class="tabContent" id="modalView">
         <div class="tools">          
           <button data-keys="p" id="pointer_button" class="pointer_selected tool">
@@ -93,11 +104,14 @@
           <button data-keys="v" id="variable_button" class="node_normal tool"><img src="../images/rec.png"><span class="tooltip">Variable (V)</span></button>
           <button data-keys="f" id="flow_button" class="link_normal tool"><img src="../images/left-right.png"><span class="tooltip">Flow (F)</span></button>
           <button data-keys="i" id="influence_button" class="link_normal tool"><img src="../images/influence.png"><span class="tooltip">Influence (I)</span></button>
-          <div class="tools-divider"></div>          <button id="undo_button" class="util_normal tool"><i class="material-icons">undo</i><span class="tooltip">Undo</span></button>
+          <div class="tools-divider"></div>          
+          <button id="undo_button" class="util_normal tool"><i class="material-icons">undo</i><span class="tooltip">Undo</span></button>
           <button id="redo_button" class="util_normal tool"><i class="material-icons">redo</i><span class="tooltip">Redo</span></button>
           <button id="center_button" class="util_normal tool"><i class="material-icons">center_focus_strong</i><span class="tooltip">Center</span></button>
           <button data-keys="d" id="drag_button" class="util_normal tool"><i class="material-icons">select_all</i><span class="tooltip">Select (D)</span></button>
           <button id="image_button" class="util_normal tool"><i class="material-icons">image</i><span class="tooltip">Export as Image</span></button>
+          <div class="tools-divider"></div>
+          <button id="switch_button" class="util_normal tool"><i class="material-icons">palette</i><span class="tooltip">Switch Theme</span></button>
         </div>
         <div id="myDiagram">
           <canvas tabindex="0" width="598" height="498">This text is displayed if your browser does not support the Canvas HTML

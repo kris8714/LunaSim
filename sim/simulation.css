@@ -13,12 +13,13 @@ body {
   width: 75%;
   height: 40px;
   float: right;
+  justify-content: flex-end; /* Add this line to align content to the right */
 }
 
 #logoImage {
   height: 40px;
   position: relative;
-  right: -5px;
+  right: 2px;
 }
 
 #model_name {
@@ -42,8 +43,9 @@ body {
 
 #saveStatus {
   margin-right: 10px;
+  margin-left: 0%;
   position: relative;
-  font-weight: bold;
+  font-weight: lighter;
   font-size: 13px;
   color: #a996ff;
   text-align: right;
@@ -148,23 +150,6 @@ body {
 
 #exportButton:hover {
   background-color: #157091;
-  transition: 0.2s;
-}
-
-#switchThemeButton {
-  background-color: #414141;
-  color: #ffffff;
-  font-weight: lighter;
-  width: 150px;
-}
-
-#switchThemeButton img {
-  top:3px;
-  left: 4px;
-}
-
-#switchThemeButton:hover {
-  background-color: #1e1e1e;
   transition: 0.2s;
 }
 
@@ -283,13 +268,14 @@ body {
 
 
 #myDiagram {
-  width: calc(57.5%);
-  height: calc(100% - 30px);
+  width: calc(62.5%);
+  box-shadow: 0 4px 20px rgb(0, 0, 0);
+  height: calc(100% - 120px);
   border: 1px solid black;
   background-color: white;
-  left: 95px;
+  left: 10px;
   position: absolute;
-  top: 15px;
+  top: 105px;
   border-radius: 15px;
   outline: none !important; /* Prevents focus highlighting */
   -webkit-tap-highlight-color: transparent; /* Prevents tap highlight on mobile */
@@ -361,7 +347,7 @@ canvas {
 #display {
   width: 80vw;
   height: 85vh;
-  border-radius: 5px;
+  border-radius: 15px;
   border: 1px solid black;
   background-color: white;
   position: absolute;
@@ -372,7 +358,8 @@ canvas {
 #popForm {
   position: fixed;
   width: min(600px, 90vw);
-  max-height: 85vh;
+  max-height: 95vh; /* Increase max-height for more space */
+  min-height: 300px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -382,12 +369,17 @@ canvas {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   border: 2px solid rgb(105, 84, 221);
   display: none;
-  overflow: hidden;
+  overflow-y: auto; /* Ensure vertical scroll if needed */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+
+#popForm::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
 }
 
 /* Popup header styling */
 .popup-header {
-  background: linear-gradient(135deg, rgb(105, 84, 221), rgb(164, 149, 249));
   color: white;
   padding: 20px 30px;
   display: flex;
@@ -398,27 +390,24 @@ canvas {
 
 .popup-header h2 {
   margin: 0;
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 26px;
+  font-weight: 100;
 }
 
 .radio-group {
-  display: flex;
-  flex-direction: row;
-  align-items: left;
-  margin-bottom: 15px;
+  display: inline-flex;
 }
 
 .radio-group input[type="radio"] {
-  margin-right: 0px;
+  margin-right: 1px;
 }
 
 .radio-group label {
-  margin-right: 20px;
   cursor: pointer;
   font-size: 16px;
   color: rgb(255, 0, 0);
 }
+
 
 #closeNewTabPopup {
   width: 40px;
@@ -426,7 +415,7 @@ canvas {
   color: white;
   font-size: 24px;
   font-weight: normal;
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(59, 23, 192, 0.2);
   border-radius: 50%;
   border: none;
   cursor: pointer;
@@ -434,19 +423,20 @@ canvas {
   display: flex;
   align-items: center;
   justify-content: center;
-  position: static;
 }
 
 #tabConfig {
   padding: 30px;
   font-size: 16px;
-  max-height: 80vh;
-  overflow-y: auto;
+  max-height: none; /* Remove max-height so content can grow */
+  overflow-y: visible; /* Let parent handle scrolling */
   color: white;
 }
 
 #tabConfig > div {
   margin-bottom: 25px;
+  overflow-y: scroll;
+  scrollbar-width: none;
 }
 
 #tabConfig p {
@@ -549,7 +539,7 @@ canvas {
 
 #submitModel {
   margin-top: 30px;
-  margin-bottom: 20px;
+  margin-bottom: 0;
   width: 100%;
   height: 50px;
   background-color: #ffeb3b;
@@ -560,6 +550,10 @@ canvas {
   border: none;
   cursor: pointer;
   transition: all 0.2s ease;
+  position: static; /* Not sticky/fixed */
+  margin-top: 30px;
+  margin-bottom: 0;
+  width: 100%;
 }
 
 #submitModel:hover {
@@ -631,7 +625,8 @@ canvas {
 
 
 #eqEditor {
-  background-color: rgb(37, 0, 173);
+  background-color: rgb(26, 0, 119);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 1);
   width: calc(37% - 30px);
   position: absolute;
   right: 15px;
@@ -654,6 +649,11 @@ canvas {
   top: -6px;
   font-size: 16px;
   border-radius: 10px;
+}
+
+#eqTableDiv input{
+  background: rgba(0, 0, 0, 0.2);
+  color: white;
 }
 
 
@@ -701,17 +701,17 @@ canvas {
 /* Apply colored borders in both regular and expanded views */
 .eqStockBox .eqTableInputBox,
 #expandedEqTableDiv .eqStockBox .eqTableInputBox {
-  border: 2px solid rgb(105, 217, 255);
+  border: 1px solid rgb(105, 217, 255);
 }
 
 .eqFlowBox .eqTableInputBox,
 #expandedEqTableDiv .eqFlowBox .eqTableInputBox {
-  border: 2px solid rgb(91, 88, 244);
+  border: 1px solid rgb(91, 88, 244);
 }
 
 .eqVariableBox .eqTableInputBox,
 #expandedEqTableDiv .eqVariableBox .eqTableInputBox {
-  border: 2px solid rgb(88, 244, 156);
+  border: 1px solid rgb(88, 244, 156);
 }
 
 
@@ -726,11 +726,11 @@ canvas {
 #simParams {
   background: linear-gradient(135deg, rgb(31, 0, 134), rgb(62, 39, 172));
   width: 16%;
-  height: 89.5%;
+  height: calc(95% - 85px);
   position: absolute;
   left: 81.5%;
   right: 15px;
-  top: 15px;
+  top: 50px;
   bottom: 30px;
   font-size: min(18px, 2.8vw);
   border-radius: 15px;
@@ -896,15 +896,20 @@ canvas {
 .tools {
   border-radius: 15px;
   background: rgb(37, 0, 173);
-  width: 75px;
-  height: calc(100% - 30px);
+  width: calc(61.5%);
+  height: 75px;
   position: absolute;
   left: 10px;
   top: 15px;
   border: none;
   z-index: 3;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 10px;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .tools button {
@@ -992,10 +997,11 @@ button{
 }
 
 .tools-divider {
-  height: 1px;
+  transform: rotate(90deg);
   width: 50px;
+  height: 50px;
   background-color: rgba(255, 255, 255, 0.3);
-  margin: 10px auto;
+  margin: 0 10px;
 }
 
 /* Styles for utility buttons at bottom of toolbar */
@@ -1006,10 +1012,7 @@ button{
   color: white;
 }
 
-/* Give some space above utility buttons */
-#undo_button {
-  margin-top: auto;
-}
+
 
 #drag_button i{
   font-size: 28px;
@@ -1017,6 +1020,20 @@ button{
 }
 
 #image_button i{
+  font-size: 28px;
+  color: white;
+}
+
+#switch_button{
+  font-size: 28px;
+  color: white;
+  opacity: 1;
+}
+#switch_button:hover{
+  background-color: #4319ff;
+  transition: 0.3s;
+}
+#switch_button i{
   font-size: 28px;
   color: white;
 }
@@ -1159,9 +1176,11 @@ input[type=radio] {
 
 /* Tooltip styles for spans inside buttons */
 .tools button span {
-  transform-origin: center left;
+  transform-origin: center top;
   position: absolute;
-  left: calc(100% + 5px); /* Position tooltip next to the button */
+  top: calc(100% + 5px); /* Position tooltip below the button */
+  left: 50%;
+  transform: translateX(-50%);
   background: rgba(10, 0, 145, 0.9);
   color: white;
   padding: 5px 10px;
@@ -1232,12 +1251,13 @@ input[type=radio] {
 
 #expandedEqEditorPopup input[type="text"] {
   width: 90px;
+  height: 35px;
   padding: 10px;
   margin: 5px 0;
   box-sizing: border-box;
   font-size: 16px;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 10px;
 }
 
 #expandedEqEditorPopup .popup-header {
@@ -1245,6 +1265,7 @@ input[type=radio] {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  font-size: 30px;
 }
 
 #expandedEqEditorPopup .dropdown{
@@ -1272,6 +1293,8 @@ input[type=radio] {
 
 #expandedEqTableDiv .eqTable input[type="text"] {
   width: 100%;
+  background: rgba(0, 0, 0, 0.1);
+  color: rgb(241, 241, 241);
   padding: 8px;
   margin: 2px 0;
 }
