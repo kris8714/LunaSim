@@ -1,6 +1,6 @@
 body {
   font-family: 'Mona Sans', sans-serif;
-  background: rgb(8, 0, 63);
+  background: rgb(20, 40, 20);
   margin-left: 0px;
   margin-right: 0px;
   height: 100vh;
@@ -37,7 +37,7 @@ body {
   top: 5px;
   margin-right: 5px;
   color: white;
-  background-color: rgb(104, 84, 220);
+  background-color: rgb(34, 69, 34);
 }
 
 #saveStatus {
@@ -45,7 +45,7 @@ body {
   position: relative;
   font-weight: bold;
   font-size: 13px;
-  color: #a996ff;
+  color: #90c490;
   text-align: right;
   float: right;
   width: 250px;
@@ -230,7 +230,7 @@ body {
 }
 
 .webTabs button {
-  background: rgb(164, 149, 249); /* fallback for inactive */
+  background: rgb(85, 120, 85); /* fallback for inactive */
   height: 100%;
   border: none;
   padding: 5px 12px;
@@ -248,14 +248,14 @@ body {
 }
 
 .webTabs button:hover {
-  background: rgb(105, 84, 221);
+  background: rgb(50, 85, 50);
   color: white;
   transition: background 0.25s, color 0.25s;
   border-bottom: none;
 }
 
 .tabContent {
-  background: linear-gradient(rgb(105, 84, 221), rgb(19, 0, 97) );
+  background: linear-gradient(rgb(50, 85, 50), rgb(30, 60, 30) );
   position: relative;
   width: calc(100%);
   height: 92vh;
@@ -270,7 +270,7 @@ body {
 
 .webTabs button.active {
   transform: translateY(0.5px);
-  background: rgb(105, 84, 221);
+  background: rgb(50, 85, 50);
   color: #ffffff;
   z-index: 100;
   margin-left: 0px;
@@ -376,18 +376,17 @@ canvas {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 1003;
-  background: linear-gradient(135deg, rgb(105, 84, 221), rgb(164, 149, 249));
+  z-index: 1003;  background: linear-gradient(135deg, rgb(50, 85, 50), rgb(85, 120, 85));
   border-radius: 12px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  border: 2px solid rgb(105, 84, 221);
+  border: 2px solid rgb(50, 85, 50);
   display: none;
   overflow: hidden;
 }
 
 /* Popup header styling */
 .popup-header {
-  background: linear-gradient(135deg, rgb(105, 84, 221), rgb(164, 149, 249));
+  background: linear-gradient(135deg, rgb(50, 85, 50), rgb(85, 120, 85));
   color: white;
   padding: 20px 30px;
   display: flex;
@@ -403,21 +402,25 @@ canvas {
 }
 
 .radio-group {
-  display: flex;
-  flex-direction: row;
-  align-items: left;
   margin-bottom: 15px;
 }
 
 .radio-group input[type="radio"] {
-  margin-right: 0px;
+  margin-right: 8px;
+  transform: scale(1.2);
 }
 
 .radio-group label {
-  margin-right: 20px;
+  align-items: center;
+  margin-right: 0;
   cursor: pointer;
   font-size: 16px;
-  color: rgb(255, 0, 0);
+  color: white;
+  transition: color 0.3s ease;
+}
+
+.radio-group label:hover {
+  color: #90ee90;
 }
 
 #closeNewTabPopup {
@@ -631,7 +634,7 @@ canvas {
 
 
 #eqEditor {
-  background-color: rgb(37, 0, 173);
+  background-color: rgb(40, 75, 40);
   width: calc(37% - 30px);
   position: absolute;
   right: 15px;
@@ -724,7 +727,7 @@ canvas {
 
 
 #simParams {
-  background: linear-gradient(135deg, rgb(31, 0, 134), rgb(62, 39, 172));
+  background: linear-gradient(135deg, rgb(30, 60, 30), rgb(45, 75, 45));
   width: 16%;
   height: 89.5%;
   position: absolute;
@@ -895,7 +898,7 @@ canvas {
 
 .tools {
   border-radius: 15px;
-  background: rgb(37, 0, 173);
+  background: rgb(40, 75, 40);
   width: 75px;
   height: calc(100% - 30px);
   position: absolute;
@@ -982,12 +985,12 @@ button{
 }
 
 .tools button:hover {
-  background-color: #4319ff;
+  background-color: rgb(60, 100, 60);
   transition: 0.3s;
 }
 
 .tools button.active {
-  background-color: #4319ff;
+  background-color: rgb(60, 100, 60);
   transition: 0.3s;
 }
 
@@ -1027,12 +1030,12 @@ button{
 
 .tools button.util_normal:hover {
   opacity: 1;
-  background-color: #4319ff;
+  background-color: rgb(60, 100, 60);
 }
 
 .tools button.util_selected {
   opacity: 1;
-  background-color: #4319ff;
+  background-color: rgb(60, 100, 60);
 }
 
 
@@ -1115,11 +1118,11 @@ a:active { text-decoration: none;  color: black;}
 }
 
 .graphTabsInactive {
-  background-color: rgb(133, 111, 255);
+  background-color: rgb(70, 105, 70);
 }
 
 .graphTabsActive {
-  background-color: rgb(62, 47, 220);
+  background-color: rgb(45, 80, 45);
 }
 
 .graphTabsDelButton {
@@ -1162,7 +1165,7 @@ input[type=radio] {
   transform-origin: center left;
   position: absolute;
   left: calc(100% + 5px); /* Position tooltip next to the button */
-  background: rgba(10, 0, 145, 0.9);
+  background: rgba(30, 60, 30, 0.9);
   color: white;
   padding: 5px 10px;
   border-radius: 5px;
@@ -1183,7 +1186,7 @@ input[type=radio] {
 
 .tools-divider{
   height: 3px;
-  background: rgb(122, 92, 255);
+  background: rgb(80, 130, 80);
   border-radius: 5px;
 }
 
@@ -1207,7 +1210,7 @@ input[type=radio] {
   position: absolute;
   right: 6px;
   top: 7px;
-  background-color: #4319ff; 
+  background-color: rgb(60, 100, 60); 
   border-radius: 5px;
   border: transparent;
   z-index: 10000;
@@ -1219,7 +1222,7 @@ input[type=radio] {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: rgb(31, 0, 134);
+  background-color: rgb(30, 60, 30);
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0,0,0,1);
@@ -1263,7 +1266,7 @@ input[type=radio] {
 }
 
 #expandedEqEditorPopup .popup-close:hover {
-  background-color: #4319ff;
+  background-color: rgb(60, 100, 60);
 }
 
 #expandedEqTableDiv table {
@@ -1285,7 +1288,7 @@ input[type=radio] {
   position: absolute;
   z-index: 100000000;
   background: #fff;
-  border: 1px solid #a77aff;
+  border: 1px solid #7aaa7a;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   max-height: 200px;
   overflow-y: auto;

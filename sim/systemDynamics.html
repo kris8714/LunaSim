@@ -16,7 +16,7 @@
     }
   </script>
   <!-- Style Sheets -->
-  <link rel="stylesheet" href="simulation.css" id="lightThemeCSS">
+  <link rel="stylesheet" href="simulation_classic.css" id="lightThemeCSS">
   <link rel="stylesheet" href="simulation_dark.css" disabled="disabled" id="darkThemeCSS">
   <link rel="stylesheet" href="toggle-switch.css">
 
@@ -104,12 +104,15 @@
             element.</canvas>
         </div>
         <div id="eqEditor">
-        <p id="eqEditorTitle"><b>Equation Editor</b></p>
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+          <p id="eqEditorTitle"><b>Equation Editor</b></p>
+          <button id="expandEqEditor" class="util_normal tool"><i class="material-icons">fullscreen</i></button>
+        </div>
         <div id="eqTableDiv">
           <table id="eqTable" class="eqTable">
             <tr>
               <th class="eqTableHeader">Type</th>
-              <th class="eqTableHeader" style="width: 30%">Name</th>
+              <th class="eqTableHeader" style="width: 20%">Name</th>
               <th class="eqTableHeader"style="width: 90%">Equation</th>
               <th class="eqTableHeader" id="nnUniHeader">NN/Uni?<span id="nnUniTooltip">Non-negative/Uniflow</span></th>
             </tr>
@@ -120,33 +123,32 @@
       </div>
       </div>
       <!-- Content for the charts and tables -->
-      <div class="tabContent" id="chartsTables">
-        <div id="tabManager">
-          <button id="addTab">
-            <i id="addTabButton" class="fa fa-plus-square"></i></button>
+      <div class="tabContent" id="chartsTables">        <div id="tabManager">
           <div id="tabsList">
             <!-- Tabs added dynamically -->
           </div>
+          <button id="addTab">
+            <i id="addTabButton" class="fa fa-plus-square"></i>
+          </button>
         </div>
         <div id="display" style="display: flex; flex-direction: row; align-items: flex-start;">
           <div id="chart" style="width: 100%"></div>
           <div id="datatable"></div>
-        </div>
-        <div id="simParams">
+        </div>        <div id="simParams">
             <p id="simParamsTitle"><b>Simulation Parameters</b></p>
-            <div id="startArea">
+            <div class="param-group" id="startArea">
               <p>Start Time</p>
               <input class="simParamsInput" id="startTime" placeholder="Enter a number" value="0">
             </div>
-            <div id="endArea">
+            <div class="param-group" id="endArea">
               <p>End Time</p>
               <input class="simParamsInput" id="endTime" placeholder="Enter a number" value="10">
             </div>
-            <div id="dtArea">
-              <p>Step</p>
+            <div class="param-group" id="dtArea">
+              <p>dt (Time Interval)</p>
               <input class="simParamsInput" id="dt" placeholder="Enter a number" value="0.1">
             </div>
-            <div id="typeArea">
+            <div class="param-group" id="typeArea">
               <p>Integration</p>
               <select class="simParamsInput" id="integrationMethod">
                     <option value="rk4">Runge-Kutta 4</option>
@@ -158,38 +160,55 @@
               <p>Enable High Step Count Simulations (Not Recommended)</p>
             </div>
           </div>
-      </div>
-      <!-- The pop up to initialize the tables and charts -->
+      </div>      <!-- The pop up to initialize the tables and charts -->
       <div id="popForm">
+        <div class="popup-header">
+          <h2>Create New Tab</h2>
+          <button id="closeNewTabPopup">×</button>
+        </div>
         <form id="tabConfig" name = "tabConfig" onsubmit="return false"> <!-- Will not refresh page -->
           <div>
-            <p>Table or chart:</p>
-            <input type="radio" id="table" name="model_type" value="table" required>
-            <label for="table">Table</label><br>
-            <input type="radio" id="chart" name="model_type" value="chart" required>
-            <label for="chart">Chart</label>
+            <p>Visualization Type:</p>
+            <div class="radio-group">
+              <input type="radio" id="table" name="model_type" value="table" required>
+              <label for="table">Table</label>
+              <input type="radio" id="chart" name="model_type" value="chart" required>
+              <label for="chart">Chart</label>
+            </div>
           </div>
           <div>
             <p>X-Axis:</p>
-            <select name="xAxis" id="xAxis" style="font-size: inherit;" required>
+            <select name="xAxis" id="xAxis" required>
               <!-- Options initialized dynamically -->
             </select>
-          </div>
-          <div >
-            <p>Y-Axis:</p>
-            <table id="yAxis">
-              <!-- Multiple checkboxes initialized dynamically -->
-            </table>
+          </div>          <div>
+            <p>Y-Axis Variables:</p>
+            <div class="table-container">
+              <table id="yAxis">
+                <!-- Multiple checkboxes initialized dynamically -->
+              </table>
+            </div>
           </div>
           <button id="submitModel">Create New Tab</button>
-          <button id="closeNewTabPopup"><b>X</b></button>
         </form>
       </div>
     </div>
     <!-- Gray overlay for popups -->
     <div id="grayEffectDiv" class="overlay"></div>
+    
+    <!-- Expanded Equation Editor Popup -->
+    <div id="expandedEqEditorPopup" style="display: none;">
+      <div class="popup-header">
+        <h2>Equation Editor</h2>
+        <button id="closeExpandedEqEditor" class="popup-close"><i class="material-icons">close</i></button>
+      </div>
+      <div id="expandedEqTableDiv">
+        <!-- Table will be cloned here -->
+      </div>
+    </div>
+  </div>
 </body>
-<script>
+<script> 
 const simErrorPopup = document.getElementById('simErrorPopup');
 const simErrorPopupDismiss = document.getElementById('simErrorPopupDismiss');
 

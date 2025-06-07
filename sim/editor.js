@@ -474,16 +474,18 @@ function updateTable(load = false) {
         if (!exists) {
             var category = item.category == "valve" ? "flow" : item.category; // if the item is a valve, change the category to flow
 
-            var $tr = $('<tr>').append(
+            // Create row with category-specific class
+            var rowClass = "eq" + category.charAt(0).toUpperCase() + category.slice(1) + "Box";
+            var $tr = $('<tr>').addClass(rowClass).append(
                 $('<td>').append(
-                    $('<input class="eqTableInputBox">').attr('type', 'text').attr('name', 'type').attr('value', category).attr('readonly', true).css('width', '150px') // fixed width for type column
+                    $('<input class="eqTableInputBox">').attr('type', 'text').attr('name', 'type').attr('value', category).attr('readonly', true).css('width', '80px') // fixed width for type column
                 ),
                 $('<td>').append(
-                    $('<input class="eqTableInputBox">').attr('type', 'text').attr('name', 'name').attr('value', item.label).attr('readonly', true) // add the name of the object to the row (uneditable by user)
+                    $('<input class="eqTableInputBox">').attr('type', 'text').attr('name', 'name').attr('value', item.label).attr('readonly', true).css('width', '99%') // add the name of the object to the row (uneditable by user)
                 ),
                 $('<td>').append(
                     // make width 100% so that the equation takes up the entire column
-                    $("<input  class=\"eqTableInputBox\" style='width: inherit;'>").attr('type', 'text').attr('name', 'equation').css('width', '99%')
+                    $("<input class=\"eqTableInputBox\" style='width: inherit;'>").attr('type', 'text').attr('name', 'equation').css('width', '99%')
                 ),
             ).appendTo($tbody);
 
@@ -535,6 +537,13 @@ function updateTable(load = false) {
         }
     });
 }
+
+// Add this function near the top (after imports)
+function isChartAnimationEnabled() {
+    const el = document.getElementById("animateChartCheckbox");
+    return el && el.checked;
+}
+export { isChartAnimationEnabled };
 
 // This function is used to determine if a flow is a uniflow or a biflow given the link data and the node data,
 // used by GoJS binding for displaying two vs one arrow on a flow
@@ -1144,15 +1153,14 @@ function createMathAutocomplete() {
     let dropdown = document.createElement('div');
     dropdown.id = 'math-autocomplete';
     dropdown.style.position = 'absolute';
-    dropdown.style.zIndex = 1000;
+    dropdown.style.zIndex = 100000000;
     dropdown.style.background = '#fff';
-    dropdown.style.borderBottom = '1px solid  #a77aff';
-    dropdown.style.borderLeft = '1px solid #a77aff';
-    dropdown.style.borderRight = '1px solid #a77aff';
+    dropdown.style.border = '1px solid #a77aff';
     dropdown.style.display = 'none';
-    dropdown.style.maxHeight = '150px';
+    dropdown.style.maxHeight = '200px';
     dropdown.style.overflowY = 'auto';
     dropdown.style.fontSize = '14px';
+    dropdown.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
     document.body.appendChild(dropdown);
     return dropdown;
 }
@@ -1313,4 +1321,91 @@ function attachMathAutocomplete() {
 }
 
 attachMathAutocomplete();
+
+// Equation Editor Popup functionality
+document.getElementById('expandEqEditor').addEventListener('click', function() {
+  const popup = document.getElementById('expandedEqEditorPopup');
+  const overlay = document.getElementById('grayEffectDiv');
+  const originalTable = document.getElementById('eqTable');
+  const expandedTableDiv = document.getElementById('expandedEqTableDiv');
+  
+  // Clone the table
+  const tableClone = originalTable.cloneNode(true);
+  tableClone.id = 'expandedEqTable';
+  
+  // Clear previous content and add the clone
+  expandedTableDiv.innerHTML = '';
+  expandedTableDiv.appendChild(tableClone);
+  
+  // Show popup and overlay
+  popup.style.display = 'block';
+  overlay.style.display = 'block';
+  
+  // Sync changes from expanded table back to original
+  tableClone.addEventListener('input', function(e) {
+    if (e.target.tagName === 'INPUT') {
+      // Find the row in the popup table
+      const popupRow = e.target.closest('tr');
+      if (!popupRow) return;
+      // Get the unique name for this row
+      const nameInput = popupRow.querySelector('input[name="name"]');
+      if (!nameInput) return;
+      const uniqueName = nameInput.value;
+
+      // Find the matching row in the original table by name
+      const originalRows = originalTable.querySelectorAll('tbody tr');
+      for (const row of originalRows) {
+        const origNameInput = row.querySelector('input[name="name"]');
+        if (origNameInput && origNameInput.value === uniqueName) {
+          // Now find the matching input by type (equation, checkbox, etc)
+          const origInput = row.querySelector(`input[name="${e.target.name}"]`);
+          if (origInput) {
+            if (e.target.type === 'checkbox') {
+              origInput.checked = e.target.checked;
+            } else {
+              origInput.value = e.target.value;
+            }
+            // Trigger change event
+            const event = new Event('change', { bubbles: true });
+            origInput.dispatchEvent(event);
+          }
+          break;
+        }
+      }
+    }
+  });
+
+  // Sync checkbox changes
+  tableClone.addEventListener('change', function(e) {
+    if (e.target.type === 'checkbox') {
+      const popupRow = e.target.closest('tr');
+      if (!popupRow) return;
+      const nameInput = popupRow.querySelector('input[name="name"]');
+      if (!nameInput) return;
+      const uniqueName = nameInput.value;
+      const originalRows = originalTable.querySelectorAll('tbody tr');
+      for (const row of originalRows) {
+        const origNameInput = row.querySelector('input[name="name"]');
+        if (origNameInput && origNameInput.value === uniqueName) {
+          const origCheckbox = row.querySelector(`input[type="checkbox"][name="${e.target.name}"]`);
+          if (origCheckbox) {
+            origCheckbox.checked = e.target.checked;
+            // Trigger change event
+            const event = new Event('change', { bubbles: true });
+            origCheckbox.dispatchEvent(event);
+          }
+          break;
+        }
+      }
+    }
+  });
+});
+
+document.getElementById('closeExpandedEqEditor').addEventListener('click', function() {
+  const popup = document.getElementById('expandedEqEditorPopup');
+  const overlay = document.getElementById('grayEffectDiv');
+  
+  popup.style.display = 'none';
+  overlay.style.display = 'none';
+});
 

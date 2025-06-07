@@ -3,7 +3,7 @@
  */
 
 import {data} from './editor.js';
-import { PERFORMANCE_MODE } from "./editor.js";
+import { PERFORMANCE_MODE, isChartAnimationEnabled } from "./editor.js";
 
 
 var TESTING_MODE = false;
@@ -266,52 +266,62 @@ function configTabs(){
   }
   
   for(let j = 0; j < tabs.length; j++){
-    const delButton = document.createElement("button"); 
-    //delButton.innerHTML = '<i style="font-size: 2vw;" class="fa fa-close"></i>'; // Font Awesome 4 icon button
-    delButton.innerHTML = "<b>X</b>"; // looks cleaner and easier to customise imo
-    delButton.classList = "graphTabsDelButton";
-    delButton.style.backgroundColor = "inherit";
-    delButton.style.border = "none";
-    
     const tab = document.createElement("div"); // Tabs are divs to allow button children
-    var node;
-    if(j == 0) 
-      node = document.createTextNode("Default");  // name of default tab
-    else
-      node = document.createTextNode("Tab " + j);  // Tab name based on index
-    
     tab.classList = "graphTabs";
-
-    if(j != 0)  // default tab is not deletable
+    
+    // Create tab name span
+    const tabName = document.createElement("span");
+    if(j == 0) 
+      tabName.textContent = "Default";  // name of default tab
+    else
+      tabName.textContent = "Tab " + j;  // Tab name based on index
+    
+    tab.appendChild(tabName);
+    
+    // Add delete button after the name (if not the default tab)
+    if(j != 0) {  // default tab is not deletable
+      const delButton = document.createElement("button"); 
+      delButton.innerHTML = '×';  // Use × symbol instead of material icon
+      delButton.className = "graphTabsDelButton";
+      delButton.type = "button";
+      delButton.setAttribute('aria-label', 'Close tab');
       tab.appendChild(delButton);
-    tab.appendChild(node);
+    }
+    
     list.appendChild(tab);
     
-    delButton.addEventListener("click", function tabDelete(){ 
-      let i = Number(tab.lastChild.nodeValue.charAt(4)); // gets the correct index
-      tabs.splice(i, 1); // removes one value from i
-      list.childNodes[i-1].click(); // switches to previous tab
-    });
+    // Add delete button event listener (only for non-default tabs)
+    if(j != 0) {
+      const delButton = tab.querySelector('.graphTabsDelButton');
+      delButton.addEventListener("click", function(event) {
+        event.stopPropagation(); // Prevent tab click when clicking delete button
+        let tabText = tab.firstChild.textContent;
+        let i = tabText === "Default" ? 0 : Number(tabText.charAt(4)); // gets the correct index
+        tabs.splice(i, 1); // removes one value from i
+        configTabs(); // reconfigure tabs
+        // Switch to the previous tab or default tab
+        if (i > 0) {
+          list.childNodes[i-1].click(); // switches to previous tab
+        } else if (list.childNodes.length > 0) {
+          list.childNodes[0].click(); // switch to default tab
+        }
+      });
+    }
 
     tab.addEventListener("click", function render() {
       if (data == null){ // ensures that the simulation has been run first
         showPopup("Run the simulation first.");
         return;
       }
-      var i = this.lastChild.nodeValue.charAt(4); // Reads the text node
-      if(i == "u") // i = 0 if default
-        i = 0;
-      else
-        i = Number(i); // gets the number
+      var tabText = this.firstChild.textContent; // Get text from span element
+      var i = tabText === "Default" ? 0 : Number(tabText.charAt(4)); // gets the number
       
       var tabInfo = tabs[i];
       if (tabInfo.type == "chart") {
         if (PERFORMANCE_MODE == true)
           console.time('Chart Render Time'); // Measuring chart render time
-        
         document.getElementById('chart').hidden = false;
         document.getElementById('datatable').hidden = true;
-        
         var options = {
           series: [
           ],
@@ -322,7 +332,20 @@ function configTabs(){
               type: 'xy'
             },
             height: "100%",
-            width: "100%"
+            width: "100%",
+            animations: {
+              enabled: isChartAnimationEnabled(),
+              easing: 'linear',
+              speed: 1000,
+              animateGradually: {
+                enabled: true,
+                delay: 150
+              },
+              dynamicAnimation: {
+                enabled: true,
+                speed: 350
+              }
+            }
            },
           dataLabels: {
             enabled: false
@@ -377,7 +400,16 @@ function configTabs(){
         var xValues = getAllValues(tabInfo.xAxis, data);
         if(xValues == null){ // deletes tab and sends alert when data is deleted
           showPopup("There is missing data in this tab. (corrected)");
-          this.firstChild.click(); // Auto-clicks delete button
+          // Delete this tab
+          let tabText = this.firstChild.textContent;
+          let tabIndex = tabText === "Default" ? 0 : Number(tabText.charAt(4));
+          if (tabIndex > 0) { // Don't delete default tab
+            tabs.splice(tabIndex, 1);
+            configTabs();
+            if (list.childNodes.length > 0) {
+              list.childNodes[0].click(); // Switch to default tab
+            }
+          }
           return;
         }
 
@@ -385,7 +417,16 @@ function configTabs(){
           var yValues = getAllValues(yName, data);
           if(yValues == null){ // deletes tab and sends alert when data is deleted
             showPopup("There is missing data in this tab. (corrected)");
-            this.firstChild.click(); // Auto-clicks delete button
+            // Delete this tab
+            let tabText = this.firstChild.textContent;
+            let tabIndex = tabText === "Default" ? 0 : Number(tabText.charAt(4));
+            if (tabIndex > 0) { // Don't delete default tab
+              tabs.splice(tabIndex, 1);
+              configTabs();
+              if (list.childNodes.length > 0) {
+                list.childNodes[0].click(); // Switch to default tab
+              }
+            }
             return;
           }
           options.series.push({
@@ -413,7 +454,16 @@ function configTabs(){
           var xValues = getAllValues(tabInfo.xAxis, data);
           if(xValues == null){ // deletes tab and sends alert when data is deleted
             showPopup("There is missing data in this tab. (corrected)");
-            this.firstChild.click(); // Auto-clicks delete button
+            // Delete this tab
+            let tabText = this.firstChild.textContent;
+            let tabIndex = tabText === "Default" ? 0 : Number(tabText.charAt(4));
+            if (tabIndex > 0) { // Don't delete default tab
+              tabs.splice(tabIndex, 1);
+              configTabs();
+              if (list.childNodes.length > 0) {
+                list.childNodes[0].click(); // Switch to default tab
+              }
+            }
             return;
           }
         
@@ -435,7 +485,16 @@ function configTabs(){
             var yValues = getAllValues(yName, data);
             if(yValues == null){ // deletes tab and sends alert when data is deleted
               showPopup("There is missing data in this tab. (corrected)");
-              this.firstChild.click();
+              // Delete this tab
+              let tabText = this.firstChild.textContent;
+              let tabIndex = tabText === "Default" ? 0 : Number(tabText.charAt(4));
+              if (tabIndex > 0) { // Don't delete default tab
+                tabs.splice(tabIndex, 1);
+                configTabs();
+                if (list.childNodes.length > 0) {
+                  list.childNodes[0].click(); // Switch to default tab
+                }
+              }
               return;
             }
             for (var i = 0; i < tableData.length; i++) {
