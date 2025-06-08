@@ -1,6 +1,6 @@
 body {
   font-family: 'Mona Sans', sans-serif;
-  background: rgb(3, 63, 0);
+  background: rgb(2, 39, 0);
   margin-left: 0px;
   margin-right: 0px;
   height: 100vh;
@@ -38,7 +38,7 @@ body {
   top: 5px;
   margin-right: 5px;
   color: white;
-  background-color: rgb(23, 113, 29);
+  background-color: rgb(53, 80, 55);
 }
 
 #saveStatus {
@@ -47,7 +47,7 @@ body {
   position: relative;
   font-weight: lighter;
   font-size: 13px;
-  color: #96ffa6;
+  color: #ffffff;
   text-align: right;
   float: right;
   width: 250px;
@@ -100,7 +100,7 @@ body {
 }
 
 #runButton {
-  background-color: #009933;
+  background-color: #268646;
   color: rgb(255, 255, 255);
   width: 100px;
 }
@@ -154,7 +154,7 @@ body {
 }
 
 #docsButton {
-  background-color: rgba(19, 124, 15, 0.9);
+  background-color: rgba(68, 42, 105, 0.9);
   color: rgb(255, 255, 255);
   font-weight: lighter;
   width: 85px;
@@ -167,7 +167,7 @@ body {
 
 }
 #docsButton:hover{
-  background-color: rgba(18, 177, 10, 0.9);
+  background-color: rgba(73, 32, 130, 0.9);
 }
 
 #clearButton {
@@ -215,7 +215,7 @@ body {
 }
 
 .webTabs button {
-  background: rgb(6, 104, 18); /* fallback for inactive */
+  background: rgb(42, 89, 48); /* fallback for inactive */
   height: 100%;
   border: none;
   padding: 5px 12px;
@@ -240,7 +240,7 @@ body {
 }
 
 .tabContent {
-  background: linear-gradient(rgb(5, 148, 22), rgb(5, 55, 0) );
+  background: linear-gradient(rgb(56, 131, 66), rgb(5, 55, 0) );
   position: relative;
   width: calc(100%);
   height: 92vh;
@@ -255,7 +255,7 @@ body {
 
 .webTabs button.active {
   transform: translateY(0.5px);
-  background: rgb(5, 148, 22);
+  background: rgb(56, 131, 66);
   color: #ffffff;
   z-index: 100;
   margin-left: 0px;
@@ -364,7 +364,7 @@ canvas {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1003;
-  background: linear-gradient(135deg, rgb(24, 112, 19), rgb(78, 194, 88));
+  background: linear-gradient(135deg, rgb(28, 80, 25), rgb(87, 144, 91));
   border-radius: 12px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   border: 2px solid rgb(0, 73, 11);
@@ -626,7 +626,7 @@ canvas {
 
 
 #eqEditor {
-  background-color: rgb(0, 78, 9);
+  background-color: rgb(34, 65, 38);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 1);
   width: calc(37% - 30px);
   position: absolute;
@@ -725,7 +725,7 @@ canvas {
 
 
 #simParams {
-  background: linear-gradient(135deg, rgb(0, 96, 5), rgb(27, 119, 35));
+  background: linear-gradient(135deg, rgb(13, 58, 16), rgb(33, 77, 36));
   width: 16%;
   height: calc(95% - 85px);
   position: absolute;
@@ -896,7 +896,7 @@ canvas {
 
 .tools {
   border-radius: 15px;
-  background: rgb(0, 93, 0);
+  background: rgb(51, 89, 51);
   width: calc(61.5%);
   height: 75px;
   position: absolute;
@@ -988,12 +988,12 @@ button{
 }
 
 .tools button:hover {
-  background-color: #0a9500;
+  background-color: #3c8836;
   transition: 0.3s;
 }
 
 .tools button.active {
-  background-color: #059b00;
+  background-color: #3c8836;
   transition: 0.3s;
 }
 
@@ -1113,7 +1113,7 @@ a:active { text-decoration: none;  color: black;}
 }
 
 .graphTabs {
-  border: 1px solid black;
+  border: 1px solid rgb(3, 63, 1);
   border-radius: 5px; 
   font-size: 20px;
   margin: 5px;
@@ -1133,11 +1133,11 @@ a:active { text-decoration: none;  color: black;}
 }
 
 .graphTabsInactive {
-  background-color: rgb(0, 123, 12);
+  background-color: rgb(71, 148, 79);
 }
 
 .graphTabsActive {
-  background-color: rgb(12, 184, 0);
+  background-color: rgb(39, 74, 36);
 }
 
 .graphTabsDelButton {
@@ -1203,7 +1203,7 @@ input[type=radio] {
 
 .tools-divider{
   height: 3px;
-  background: rgb(92, 255, 97);
+  background: rgb(61, 141, 64);
   border-radius: 5px;
 }
 
